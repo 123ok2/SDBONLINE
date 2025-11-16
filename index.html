@@ -205,7 +205,7 @@
             border-radius: 0.75rem; 
         }
         
-        /* --- STYLE CHO USER DROPDOWN (ĐÃ TINH CHỈNH) --- */
+        /* --- STYLE CHO USER DROPDOWN (ĐÃ TINH CHỈNH TÙY BIẾN THEO NỘI DUNG) --- */
         .user-profile-dropdown {
             position: relative;
         }
@@ -214,7 +214,10 @@
             right: 0;
             top: 100%;
             margin-top: 0.75rem;
-            width: 19rem; /* Rộng hơn một chút */
+            /* ĐÃ BỎ fixed width: 19rem */
+            width: max-content; /* Mở rộng theo nội dung */
+            min-width: 25rem; /* Độ rộng tối thiểu để không quá hẹp */
+            max-width: 40rem; /* Độ rộng tối đa để không quá rộng */
             background-color: rgb(255, 255, 255);
             border-radius: 0.75rem; 
             padding: 0; 
@@ -227,6 +230,15 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* --- STYLE CHO BRANDING TEXT --- */
+        .school-name-h2 {
+            font-size: 1rem; /* Thay vì text-0.4xl, dùng 1rem */
+            white-space: nowrap;
+        }
+        .app-name-span {
+            font-size: 0.75rem; /* Thay vì text-0.5xl, dùng 0.75rem (text-sm) */
         }
         
         /* ===== [MỚI] STYLE CHUNG CHO CÁC POPUP TOÀN MÀN HÌNH ===== */
@@ -251,10 +263,10 @@
             <div class="flex items-center">
                 <ion-icon name="book-outline" class="text-3xl mr-3"></ion-icon> 
                 <div class="flex flex-col items-start">
-                     <div class="hidden md:block text-0.4xl font-extrabold text-white">
-                TRƯỜNG THPT THCS THU CÚC
-            </div>
-                    <span class="text-0.5xl font-extrabold tracking-wide">Sổ Đầu Bài Online</span>
+                     <div class="hidden md:block school-name-h2 font-extrabold text-white" id="header-school-name-display">
+                        Đang tải tên trường...
+                     </div>
+                    <span class="app-name-span font-extrabold tracking-wide">Sổ Đầu Bài Online</span>
                 </div>
             </div>
             
@@ -282,28 +294,31 @@
         <div id="user-info-email" class="text-sm text-red-100 truncate mt-1">user@example.com</div>
         <div class="text-xs font-semibold text-red-300 mt-2">TÀI KHOẢN GIÁO VIÊN</div>
     </div>
-
-    <div class="px-5 py-4 bg-white border-b border-gray-200"> 
-        <div class="text-sm text-gray-700 space-y-3">
+    
+    <div class="px-5 py-4 bg-gray-50 border-b border-gray-200"> 
+        <div class="text-sm text-gray-800 space-y-4">
             
-            <div id="user-info-subject" class="flex justify-between items-center pb-1 border-b border-gray-100">
-                <div class="flex items-center space-x-2">
-                    <ion-icon name="bookmarks-outline" class="text-xl text-yellow-600"></ion-icon>
-                    <span class="font-bold text-gray-800 uppercase">MÔN HỌC</span> 
+            <div id="user-info-subject" class="flex justify-between items-center pb-2 border-b border-gray-200">
+                <div class="flex items-center space-x-2 flex-shrink-0">
+                    <ion-icon name="bookmarks-outline" class="text-xl text-red-600"></ion-icon>
+                    <span class="font-semibold text-gray-600 uppercase">MÔN HỌC</span> 
                 </div>
-                <span class="font-extrabold text-red-800">KHTN 1</span>
+                <span class="bg-red-100 text-red-800 text-xs font-extrabold px-3 py-1 rounded-full shadow-sm tracking-wider whitespace-nowrap">
+                    KHTN 1
+                </span>
             </div>
             
-            <div id="user-info-school" class="flex justify-between items-center pt-1">
-                <div class="flex items-center space-x-2">
-                    <ion-icon name="business-outline" class="text-xl text-blue-600"></ion-icon>
-                    <span class="font-bold text-gray-800 uppercase">ĐƠN VỊ</span> 
+            <div id="user-info-school" class="flex justify-between items-start pt-2">
+                <div class="flex items-center space-x-2 flex-shrink-0">
+                    <ion-icon name="business-outline" class="text-xl text-blue-700"></ion-icon>
+                    <span class="font-semibold text-gray-600 uppercase">ĐƠN VỊ</span> 
                 </div>
-                <span class="font-medium text-gray-700 text-right ml-2">PTDTBT THCS THU CÚC</span>
+                <span class="text-sm font-bold text-gray-800 text-right whitespace-nowrap ml-2">
+                    PTDTBT THCS THU CÚC
+                </span>
             </div>
         </div>
     </div>
-    
     <div class="px-4 py-3 bg-gray-50 flex flex-col space-y-2">
         
         <button onclick="document.getElementById('contact-modal').classList.add('show'); toggleDropdown();" 
@@ -530,7 +545,7 @@
         const greetingMessage = document.getElementById('greeting-message');
 
         // Hàm lấy lời chào đa dạng theo thời gian thực
-        function getGreetingByTime(userName) { // <-- Đã sửa: Chấp nhận Tên người dùng
+        function getGreetingByTime(userName) { 
             const hour = new Date().getHours();
             let title;
             let messages;
@@ -540,7 +555,7 @@
 
             if (hour >= 5 && hour < 12) {
                 // Buổi sáng (5h - 11h59)
-                title = `Chào buổi sáng, ${displayUserName}!`; // <-- Đã sửa: Dùng tên hiển thị
+                title = `Chào buổi sáng, ${displayUserName}!`; 
                 messages = [
                     "Chúc bạn một ngày học tập hứng khởi, tràn đầy năng lượng và hiệu quả! ☀️",
                     "Mỗi ngày là một khởi đầu mới. Chúc bạn lan tỏa nguồn cảm hứng tốt đẹp nhất đến học trò! ✨",
@@ -549,7 +564,7 @@
                 ];
             } else if (hour >= 12 && hour < 18) {
                 // Buổi chiều (12h - 17h59)
-                title = `Chào buổi chiều, ${displayUserName}!`; // <-- Đã sửa: Dùng tên hiển thị
+                title = `Chào buổi chiều, ${displayUserName}!`; 
                 messages = [
                     "Thời gian làm việc buổi chiều đã bắt đầu! Chúc bạn giữ vững tinh thần và hoàn thành tốt nhiệm vụ! ☕",
                     "Buổi chiều trôi qua thật nhanh. Chúc bạn có những khoảnh khắc đáng nhớ cùng học sinh! 🍎",
@@ -558,7 +573,7 @@
                 ];
             } else {
                 // Buổi tối/Đêm (18h - 4h59)
-                title = `Chào buổi tối, ${displayUserName}!`; // <-- Đã sửa: Dùng tên hiển thị
+                title = `Chào buổi tối, ${displayUserName}!`; 
                 messages = [
                     "Đã đến lúc nghỉ ngơi sau một ngày dài. Chúc bạn một buổi tối thư giãn và ấm áp! 🌙",
                     "Bạn có thể dành thời gian này để chuẩn bị cho bài giảng hôm sau. Chúc bạn có nhiều ý tưởng mới! 📝",
@@ -575,9 +590,9 @@
         }
 
         // Hàm kiểm tra và hiển thị Popup (Luôn hiển thị khi load trang)
-        function showGreetingPopup(userName) { // <-- Đã sửa: Chấp nhận Tên người dùng
+        function showGreetingPopup(userName) { 
             // 1. Lấy lời chào và cập nhật nội dung
-            const { title, message } = getGreetingByTime(userName); // <-- Đã sửa: Truyền Tên người dùng
+            const { title, message } = getGreetingByTime(userName); 
             greetingTitle.textContent = title;
             greetingMessage.textContent = message;
 
@@ -592,13 +607,15 @@
         // END: LOGIC CHO POPUP CHÀO MỪNG THEO THỜI GIAN THỰC
 
         // Tải thông tin cá nhân và hiển thị
-        async function loadUserInfo(userId) { // <-- Đã sửa: Đánh dấu là async
+        async function loadUserInfo(userId) { 
             const profileRef = doc(db, "users", userId, "profile", "data");
             const emailElement = document.getElementById('user-info-email');
             const nameElement = document.getElementById('user-info-name');
             const nameShortElement = document.getElementById('user-info-name-short'); 
             const subjectElement = document.getElementById('user-info-subject');
             const schoolElement = document.getElementById('user-info-school');
+            // LẤY ELEMENT TÊN TRƯỜNG TRÊN HEADER
+            const headerSchoolNameElement = document.getElementById('header-school-name-display'); 
 
             if(auth.currentUser) {
                 emailElement.textContent = auth.currentUser.email;
@@ -607,32 +624,49 @@
 
             try {
                 const docSnap = await getDoc(profileRef);
+                const defaultSchoolName = "TRƯỜNG PTDTBT THCS THU CÚC"; 
+
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     const hoTen = data.hoTen || "Giáo Viên (Chưa cập nhật)";
+                    const truongHoc = data.truongHoc || defaultSchoolName;
+                    
                     nameElement.textContent = hoTen;
                     const shortName = hoTen.split(' ').pop() || "GV";
                     nameShortElement.textContent = shortName; 
                     
-                    subjectElement.innerHTML = `<div class="flex items-center space-x-2"><ion-icon name="bookmarks-outline" class="text-xl text-yellow-600"></ion-icon><span class="font-bold text-gray-800 uppercase">MÔN HỌC</span></div><span class="font-extrabold text-red-800">${data.monHoc || "..."}</span>`;
-                    schoolElement.innerHTML = `<div class="flex items-center space-x-2"><ion-icon name="business-outline" class="text-xl text-blue-600"></ion-icon><span class="font-bold text-gray-800 uppercase">ĐƠN VỊ</span></div><span class="font-medium text-gray-700 text-right ml-2">${data.truongHoc || "..."}</span>`;
+                    // CẬP NHẬT CODE HIỂN THỊ TRONG DROPDOWN
+                    subjectElement.innerHTML = `<div class="flex items-center space-x-2 flex-shrink-0"><ion-icon name="bookmarks-outline" class="text-xl text-red-600"></ion-icon><span class="font-semibold text-gray-600 uppercase">MÔN HỌC</span></div><span class="bg-red-100 text-red-800 text-xs font-extrabold px-3 py-1 rounded-full shadow-sm tracking-wider whitespace-nowrap">${data.monHoc || "..."}</span>`;
+                    schoolElement.innerHTML = `<div class="flex items-center space-x-2 flex-shrink-0"><ion-icon name="business-outline" class="text-xl text-blue-700"></ion-icon><span class="font-semibold text-gray-600 uppercase">ĐƠN VỊ</span></div><span class="text-sm font-bold text-gray-800 text-right whitespace-nowrap ml-2">${truongHoc}</span>`;
                     
-                    return hoTen; // <-- Đã sửa: Trả về tên đầy đủ
+                    // CẬP NHẬT CODE HIỂN THỊ TÊN TRƯỜNG TRÊN HEADER
+                    if (headerSchoolNameElement) {
+                        headerSchoolNameElement.textContent = truongHoc; 
+                    }
+                    
+                    return hoTen; 
                     
                 } else {
                     nameElement.textContent = "Giáo Viên (Chưa cập nhật)";
                     nameShortElement.textContent = "GV";
-                    subjectElement.innerHTML = `<div class="flex items-center space-x-2"><ion-icon name="bookmarks-outline" class="text-xl text-yellow-600"></ion-icon><span class="font-bold text-gray-800 uppercase">MÔN HỌC</span></div><span class="font-extrabold text-red-800">...</span>`;
-                    schoolElement.innerHTML = `<div class="flex items-center space-x-2"><ion-icon name="business-outline" class="text-xl text-blue-600"></ion-icon><span class="font-bold text-gray-800 uppercase">ĐƠN VỊ</span></div><span class="font-medium text-gray-700 text-right ml-2">...</span>`;
                     
-                    return "Giáo Viên"; // <-- Đã sửa: Trả về tên mặc định
+                    // CODE MẶC ĐỊNH KHI CHƯA CÓ DỮ LIỆU CŨNG DÙNG CÁC CLASS MỚI
+                    subjectElement.innerHTML = `<div class="flex items-center space-x-2 flex-shrink-0"><ion-icon name="bookmarks-outline" class="text-xl text-red-600"></ion-icon><span class="font-semibold text-gray-600 uppercase">MÔN HỌC</span></div><span class="bg-red-100 text-red-800 text-xs font-extrabold px-3 py-1 rounded-full shadow-sm tracking-wider whitespace-nowrap">...</span>`;
+                    schoolElement.innerHTML = `<div class="flex items-center space-x-2 flex-shrink-0"><ion-icon name="business-outline" class="text-xl text-blue-700"></ion-icon><span class="font-semibold text-gray-600 uppercase">ĐƠN VỊ</span></div><span class="text-sm font-bold text-gray-800 text-right whitespace-nowrap ml-2">${defaultSchoolName}</span>`;
+                    
+                    // CẬP NHẬT TÊN TRƯỜNG TRÊN HEADER VỚI TÊN MẶC ĐỊNH
+                    if (headerSchoolNameElement) {
+                        headerSchoolNameElement.textContent = defaultSchoolName; 
+                    }
+                    
+                    return "Giáo Viên"; 
                 }
             } catch (error) {
                 console.error("Lỗi tải thông tin GV:", error);
                 nameElement.textContent = "Lỗi tải thông tin";
                 nameShortElement.textContent = "Lỗi";
                 
-                return "Giáo Viên"; // <-- Đã sửa: Trả về tên mặc định khi lỗi
+                return "Giáo Viên"; 
             }
         }
 
@@ -650,7 +684,7 @@
         });
 
 
-        // ========== [MỚI] LOGIC XỬ LÝ MENU DROPDOWN CẤP 2 ==========
+        // ========== LOGIC XỬ LÝ MENU DROPDOWN CẤP 2 ==========
         // Xử lý đóng mở Menu Dropdown cấp 2
         window.toggleMenuDropdown = function(event, element) {
             // Ngăn click lan ra document, nhưng chỉ khi click vào label
