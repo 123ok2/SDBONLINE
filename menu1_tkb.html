@@ -1,0 +1,117 @@
+<div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-blue-800 mb-2 flex items-center">
+        🗓️ Nhập Thời Khóa Biểu Cá Nhân
+    </h1>
+    <p class="text-sm text-gray-600 mb-6">
+        Nhập lớp bạn dạy vào các ô tương ứng theo Thứ và Tiết. Hệ thống sẽ lưu TKB theo phiên bản có hiệu lực từ ngày bạn chọn.
+    </p>
+
+    <div class="mb-6 p-4 bg-white rounded-xl shadow-lg border border-blue-400 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center mb-2 sm:mb-0">
+            <label for="tkb-start-date" class="flex-shrink-0 text-sm font-bold text-blue-700 mr-4 flex items-center">
+                ✨ TKB Mới Sẽ Có Hiệu Lực Từ Ngày:
+            </label>
+            <input type="date" id="tkb-start-date" required class="w-full sm:w-40 px-3 py-1.5 border-2 border-blue-400 rounded-lg text-sm focus:ring-green-600 focus:border-green-600 transition duration-150 shadow-inner cursor-pointer">
+        </div>
+        
+        <p class="text-xs text-blue-500 mt-2 sm:mt-0 italic sm:text-right">
+            (Nếu chọn ngày đã có, bản ghi cũ sẽ bị ghi đè.)
+        </p>
+    </div>
+
+    <div class="overflow-x-auto shadow-2xl rounded-xl border-2 border-blue-500 bg-white">
+        <table class="min-w-full divide-y divide-blue-300">
+            <thead class="bg-blue-700">
+                <tr>
+                    <th class="px-3 py-2 text-center text-xs font-bold text-white uppercase tracking-wider w-16 sticky left-0 bg-blue-700 z-10 border-r border-blue-500">Tiết</th>
+                    <th class="px-2 py-2 text-center text-xs font-bold text-white uppercase tracking-wider">Thứ 2</th>
+                    <th class="px-2 py-2 text-center text-xs font-bold text-white uppercase tracking-wider">Thứ 3</th>
+                    <th class="px-2 py-2 text-center text-xs font-bold text-white uppercase tracking-wider">Thứ 4</th>
+                    <th class="px-2 py-2 text-center text-xs font-bold text-white uppercase tracking-wider">Thứ 5</th>
+                    <th class="px-2 py-2 text-center text-xs font-bold text-white uppercase tracking-wider">Thứ 6</th>
+                    <th class="px-2 py-2 text-center text-xs font-bold text-white uppercase tracking-wider">Thứ 7</th>
+                </tr>
+            </thead>
+            <tbody id="tkb-grid-body" class="bg-white divide-y divide-gray-200">
+                <tr class="hover:bg-blue-50 transition duration-100">
+                    <td class="px-3 py-1.5 whitespace-nowrap font-bold text-xs text-center text-gray-800 sticky left-0 bg-blue-100 z-10 border-r border-gray-200">Tiết 1</td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T2" data-tiet="1" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T3" data-tiet="1" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T4" data-tiet="1" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T5" data-tiet="1" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T6" data-tiet="1" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T7" data-tiet="1" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                </tr>
+                <tr class="bg-gray-50 hover:bg-blue-50 transition duration-100">
+                    <td class="px-3 py-1.5 whitespace-nowrap font-bold text-xs text-center text-gray-800 sticky left-0 bg-blue-100 z-10 border-r border-gray-200">Tiết 2</td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T2" data-tiet="2" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T3" data-tiet="2" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T4" data-tiet="2" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T5" data-tiet="2" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T6" data-tiet="2" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T7" data-tiet="2" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                </tr>
+                 <tr class="hover:bg-blue-50 transition duration-100">
+                    <td class="px-3 py-1.5 whitespace-nowrap font-bold text-xs text-center text-gray-800 sticky left-0 bg-blue-100 z-10 border-r border-gray-200">Tiết 3</td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T2" data-tiet="3" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T3" data-tiet="3" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T4" data-tiet="3" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T5" data-tiet="3" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T6" data-tiet="3" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T7" data-tiet="3" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                </tr>
+                 <tr class="bg-gray-50 hover:bg-blue-50 transition duration-100">
+                    <td class="px-3 py-1.5 whitespace-nowrap font-bold text-xs text-center text-gray-800 sticky left-0 bg-blue-100 z-10 border-r border-gray-200">Tiết 4</td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T2" data-tiet="4" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T3" data-tiet="4" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T4" data-tiet="4" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T5" data-tiet="4" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T6" data-tiet="4" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T7" data-tiet="4" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                </tr>
+                 <tr class="hover:bg-blue-50 transition duration-100">
+                    <td class="px-3 py-1.5 whitespace-nowrap font-bold text-xs text-center text-gray-800 sticky left-0 bg-blue-100 z-10 border-r border-gray-200">Tiết 5</td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T2" data-tiet="5" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T3" data-tiet="5" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T4" data-tiet="5" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T5" data-tiet="5" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T6" data-tiet="5" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T7" data-tiet="5" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                </tr>
+                 <tr class="bg-gray-50 hover:bg-blue-50 transition duration-100">
+                    <td class="px-3 py-1.5 whitespace-nowrap font-bold text-xs text-center text-gray-800 sticky left-0 bg-blue-100 z-10 border-r border-gray-200">Tiết 6</td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T2" data-tiet="6" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T3" data-tiet="6" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T4" data-tiet="6" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T5" data-tiet="6" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T6" data-tiet="6" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T7" data-tiet="6" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                </tr>
+                 <tr class="hover:bg-blue-50 transition duration-100">
+                    <td class="px-3 py-1.5 whitespace-nowrap font-bold text-xs text-center text-gray-800 sticky left-0 bg-blue-100 z-10 border-r border-gray-200">Tiết 7</td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T2" data-tiet="7" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T3" data-tiet="7" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T4" data-tiet="7" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T5" data-tiet="7" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T6" data-tiet="7" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T7" data-tiet="7" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                </tr>
+                 <tr class="bg-gray-50 hover:bg-blue-50 transition duration-100">
+                    <td class="px-3 py-1.5 whitespace-nowrap font-bold text-xs text-center text-gray-800 sticky left-0 bg-blue-100 z-10 border-r border-gray-200">Tiết 8</td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T2" data-tiet="8" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T3" data-tiet="8" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T4" data-tiet="8" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T5" data-tiet="8" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T6" data-tiet="8" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                    <td class="py-1.5 px-1 text-center"><input type="text" oninput="this.value = this.value.toUpperCase()" data-thu="T7" data-tiet="8" placeholder="Lớp" class="tkb-cell w-16 h-7 text-xs px-1 py-0.5 border-2 border-gray-300 rounded-md text-center focus:ring-green-500 focus:border-green-500 hover:border-blue-500 font-bold uppercase transition duration-150"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-8 flex justify-end">
+        <button id="save-tkb-button" class="py-3 px-10 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition duration-200 shadow-2xl flex items-center text-sm sm:text-base">
+            💾 Lưu Thời Khóa Biểu
+        </button>
+    </div>
+</div>

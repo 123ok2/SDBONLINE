@@ -1,0 +1,27 @@
+<div>
+    <h1 class="text-3xl font-extrabold text-indigo-800 mb-2 flex items-center gap-2">
+        <span class="text-indigo-600">🏆</span> Báo Cáo Xếp Hạng Giáo Viên
+    </h1>
+    <p class="text-base text-gray-600 mb-8 p-3 bg-indigo-50 rounded-lg border border-indigo-200">
+        Xếp hạng giáo viên dựa trên Tỷ lệ Hoàn thành (%) trong **toàn bộ năm học hiện tại (từ 1/9 đến 31/8)**.
+    </p>
+
+    <div class="overflow-x-auto shadow-2xl rounded-lg border-2 border-indigo-400">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-indigo-600">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider w-[10%]">Hạng</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider w-[35%]">Giáo Viên</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider w-[20%]">Tỷ Lệ Hoàn Thành (%)</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider w-[17.5%]">Tổng Tiết Ghi</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider w-[17.5%]">Tổng Tiết TKB</th>
+                </tr>
+            </thead>
+            <tbody id="ranking-table-body" class="bg-white divide-y divide-gray-200">
+                <tr class="hover:bg-indigo-50 transition duration-150">
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500 italic">Đang tải báo cáo...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

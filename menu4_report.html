@@ -1,0 +1,62 @@
+<div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-indigo-800 mb-2 flex items-center">
+        ❌ Báo Cáo Tiết Còn Thiếu
+    </h1>
+    <p class="text-sm text-gray-600 mb-4 p-3 bg-indigo-50 rounded-lg border border-indigo-200">
+        Hệ thống so sánh **TKB cá nhân** với **SĐB đã ghi** để tìm ra các tiết bạn *chưa ghi* trong khung thời gian đã chọn.
+    </p>
+
+    <div class="flex flex-wrap items-center gap-4 mb-6 p-4 bg-white rounded-xl shadow-lg border border-gray-300">
+        <label for="filter-time" class="font-bold text-sm text-gray-700 flex items-center">
+            ⏱️ Chọn Khung thời gian:
+        </label>
+        <select id="filter-time" class="px-3 py-1.5 border border-indigo-400 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 w-40 text-sm shadow-inner">
+            <option value="today">Hôm nay</option>
+            <option value="this_month">Tháng này</option>
+            <option value="all_time">Toàn bộ</option>
+        </select>
+        
+        <button id="run-report-button" class="py-2 px-6 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition duration-200 shadow-xl flex items-center text-sm">
+            ▶️ Xem Báo Cáo
+        </button>
+    </div>
+
+    <div id="report-results" class="space-y-4">
+        <h2 class="text-xl font-extrabold text-red-700 border-b pb-1 flex items-center">
+            🔥 Danh sách Tiết CÒN THIẾU
+        </h2>
+        
+        <div class="overflow-x-auto shadow-2xl rounded-xl border-2 border-red-300">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-red-500">
+                    <tr>
+                        <th class="px-3 py-2 text-left text-xs font-bold text-white uppercase tracking-wider w-2/12">Ngày</th>
+                        <th class="px-3 py-2 text-left text-xs font-bold text-white uppercase tracking-wider w-1/12">Thứ</th>
+                        <th class="px-3 py-2 text-left text-xs font-bold text-white uppercase tracking-wider w-1/12">Tiết</th>
+                        <th class="px-3 py-2 text-left text-xs font-bold text-white uppercase tracking-wider w-4/12">Lớp (TKB)</th>
+                        <th class="px-3 py-2 text-left text-xs font-bold text-white uppercase tracking-wider w-4/12">Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody id="report-table-body" class="bg-white divide-y divide-gray-100">
+                    <tr class="bg-white hover:bg-red-50 transition duration-150">
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-500 italic">... (Nhấn "Xem Báo Cáo" để chạy) ...</td>
+                    </tr>
+                    
+                    <tr class="bg-white hover:bg-red-50 transition duration-150">
+                        <td class="px-3 py-2 whitespace-nowrap text-sm text-center font-medium text-gray-800">14/11/2025</td>
+                        <td class="px-3 py-2 whitespace-nowrap text-sm text-center text-gray-800">T6</td>
+                        <td class="px-3 py-2 whitespace-nowrap text-sm text-center text-gray-800">3</td>
+                        
+                        <td class="px-3 py-2 whitespace-nowrap text-sm **text-left** font-bold text-red-600">9A</td>
+                        
+                        <td class="px-3 py-2 whitespace-nowrap text-sm text-center">
+                            <span class="inline-block py-1 px-3 bg-red-100 text-red-700 text-xs font-semibold rounded-full shadow-sm">
+                                Chưa ghi SĐB
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

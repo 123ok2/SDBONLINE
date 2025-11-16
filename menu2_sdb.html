@@ -1,0 +1,180 @@
+<div class="bg-gray-50 min-h-screen p-4 sm:p-8 md:p-12">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-extrabold text-blue-700 mb-6 border-b-4 border-blue-400 pb-2 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+            </svg>
+            Sổ Đầu Bài Điện Tử
+        </h1>
+
+        <form id="sdb-form" class="space-y-8 p-8 bg-white rounded-3xl shadow-2xl border-2 border-blue-200">
+            
+            <fieldset class="border-2 border-blue-400 p-6 rounded-xl bg-blue-50/50 shadow-inner">
+                <legend class="text-xl font-bold text-blue-700 px-3">
+                    ⏰ Thông Tin Tiết Học
+                </legend>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                    
+                    <div class="space-y-1">
+                        <label for="ngay-day" class="block text-sm font-semibold text-gray-700 required-label">Ngày *</label>
+                        <input type="date" id="ngay-day" required class="w-full px-3 py-2 text-base border-2 border-blue-400 rounded-lg focus:ring-blue-600 focus:border-blue-600 shadow-md cursor-pointer bg-white text-gray-800">
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <label for="tiet-hoc" class="block text-sm font-semibold text-gray-700 required-label">Tiết Học *</label>
+                        <select id="tiet-hoc" required class="w-full px-3 py-2 text-base border-2 border-blue-400 rounded-lg focus:ring-blue-600 focus:border-blue-600 appearance-none cursor-pointer bg-white text-gray-800">
+                            <option value="" class="bg-white">-- Chọn tiết --</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <label for="lop-day" class="block text-sm font-extrabold text-gray-700">Lớp (TKB)</label>
+                        <input type="text" id="lop-day" placeholder="Lớp" required class="w-full px-3 py-2 text-base border-2 border-gray-400 rounded-lg bg-gray-200 text-blue-700 font-extrabold text-center shadow-md" value="10A1" readonly>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="border-2 border-red-500 p-6 rounded-xl shadow-lg bg-red-50/50">
+                <legend class="text-xl font-bold text-red-700 px-3">
+                    📝 Nội Dung Giảng Dạy
+                </legend>
+                <label for="ten-bai-day" class="block text-sm font-extrabold text-red-800 mb-2 required-label">
+                    Tên Bài Dạy / Công Việc *
+                </label>
+                <input type="text" id="ten-bai-day" required class="w-full px-4 py-3 text-lg border-2 border-red-700 rounded-xl focus:ring-red-600 focus:border-red-600 shadow-xl font-medium bg-white text-gray-800" placeholder="Nhập tên bài học, chủ đề hoặc nội dung công việc...">
+            </fieldset>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <fieldset class="border border-gray-300 p-6 rounded-xl bg-white shadow-md">
+                    <legend class="text-lg font-bold text-indigo-700 px-3">
+                        🧑‍🤝‍🧑 Tình Hình Sĩ Số
+                    </legend>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <label for="si-so" class="flex-shrink-0 text-base font-semibold text-gray-700 w-20 required-label">Sĩ số *</label>
+                            <input type="number" id="si-so" placeholder="Tổng" required class="w-full px-3 py-2 text-base border border-gray-400 rounded-md focus:ring-indigo-500 focus:border-indigo-500 shadow-sm bg-white text-center font-bold text-indigo-800">
+                        </div>
+                        <div class="space-y-2">
+                            <label for="hoc-sinh-vang" class="block text-base font-semibold text-gray-700">Tên HS Vắng</label>
+                            <textarea id="hoc-sinh-vang" rows="2" placeholder="Tên HS vắng (nếu có - VD: Nguyễn Văn A (ốm), Trần Thị B (việc riêng))" class="w-full px-3 py-2 text-sm border border-gray-400 rounded-md focus:ring-indigo-500 focus:border-indigo-500 shadow-sm bg-white text-gray-800"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <fieldset class="border border-gray-300 p-6 rounded-xl bg-white shadow-md">
+                    <legend class="text-lg font-bold text-indigo-700 px-3">
+                        ⭐ Chất Lượng Tiết Học
+                    </legend>
+                    <div class="space-y-4">
+                        <label class="block text-base font-semibold text-gray-700 required-label">Đánh giá *:</label>
+                        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 pl-2">
+                            <label class="flex items-center text-base font-medium text-gray-700 cursor-pointer">
+                                <input type="radio" name="danh-gia" value="Tot" required class="focus:ring-green-600 h-5 w-5 text-green-600 border-gray-300"> 
+                                <span class="ml-2 font-extrabold text-green-600">Tốt</span>
+                            </label>
+                            <label class="flex items-center text-base font-medium text-gray-700 cursor-pointer">
+                                <input type="radio" name="danh-gia" value="Kha" class="focus:ring-blue-600 h-5 w-5 text-blue-600 border-gray-300"> 
+                                <span class="ml-2 font-bold text-blue-600">Khá</span>
+                            </label>
+                            <label class="flex items-center text-base font-medium text-gray-700 cursor-pointer">
+                                <input type="radio" name="danh-gia" value="TB" class="focus:ring-yellow-600 h-5 w-5 text-yellow-600 border-gray-300"> 
+                                <span class="ml-2 text-yellow-600">TB</span>
+                            </label>
+                            <label class="flex items-center text-base font-medium text-gray-700 cursor-pointer">
+                                <input type="radio" name="danh-gia" value="Yeu" class="focus:ring-red-600 h-5 w-5 text-red-600 border-gray-300"> 
+                                <span class="ml-2 text-red-600">Yếu</span>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            
+            <fieldset class="border border-gray-300 p-6 rounded-xl bg-white shadow-lg">
+                <legend class="text-lg font-bold text-indigo-700 px-3">
+                    💬 Ghi Chú & Nhận Xét
+                </legend>
+                <div class="space-y-3">
+                    <label for="nhan-xet" class="block text-base font-semibold text-gray-700">Nhận xét chi tiết:</label>
+                    
+                    <div id="nhan-xet-suggestions" class="flex flex-wrap gap-2 mb-2">
+                        <button type="button" data-text="Lớp học sôi nổi, các em hợp tác tốt." class="suggestion-btn text-sm font-medium bg-green-100 text-green-700 px-3 py-1 rounded-full hover:bg-green-200 transition duration-150 border border-green-300">
+                            ✅ Sôi nổi, hợp tác tốt
+                        </button>
+                        <button type="button" data-text="Cần nghiêm túc hơn trong giờ học." class="suggestion-btn text-sm font-medium bg-red-100 text-red-700 px-3 py-1 rounded-full hover:bg-red-200 transition duration-150 border border-red-300">
+                            ❌ Cần nghiêm túc
+                        </button>
+                        <button type="button" data-text="Chuẩn bị bài đầy đủ, ghi bài đầy đủ." class="suggestion-btn text-sm font-medium bg-blue-100 text-blue-700 px-3 py-1 rounded-full hover:bg-blue-200 transition duration-150 border border-blue-300">
+                            📖 Ghi bài đầy đủ
+                        </button>
+                        <button type="button" data-text="Nộp sản phẩm/bài tập cá nhân. Đã kiểm tra." class="suggestion-btn text-sm font-medium bg-purple-100 text-purple-700 px-3 py-1 rounded-full hover:bg-purple-200 transition duration-150 border border-purple-300">
+                            📦 Đã nộp bài/SP
+                        </button>
+                        <button type="button" data-text="Giờ ôn tập/Kiểm tra. Kết quả tốt." class="suggestion-btn text-sm font-medium bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full hover:bg-yellow-200 transition duration-150 border border-yellow-300">
+                            ✏️ Giờ KT/Ôn tập
+                        </button>
+                    </div>
+                    
+                    <textarea id="nhan-xet" rows="3" class="w-full px-4 py-2 text-base border border-gray-400 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-md bg-white text-gray-800" placeholder="Khen ngợi, nhắc nhở hoặc lưu ý..."></textarea>
+                </div>
+            </fieldset>
+
+            <div class="pt-6 border-t-2 border-blue-300 flex justify-center">
+                <button type="submit" id="save-sdb-button" class="py-3 px-10 bg-green-600 text-white font-extrabold rounded-full hover:bg-green-700 transition duration-200 shadow-2xl text-xl flex items-center space-x-3 transform hover:scale-[1.02] active:scale-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 2.293a1 1 0 010 1.414l-12 12a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L3 13.586l11.293-11.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span>HOÀN THÀNH GHI SỔ</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+.required-label:after {
+    content: ' *';
+    color: red;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+</style>
+<script>
+    // Giữ nguyên phần script xử lý nút gợi ý
+    document.addEventListener('DOMContentLoaded', function() {
+        const nhanXetTextarea = document.getElementById('nhan-xet');
+        const suggestionButtons = document.querySelectorAll('.suggestion-btn');
+
+        suggestionButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Ngăn chặn submit form khi click nút gợi ý
+                
+                const suggestionText = this.getAttribute('data-text');
+                
+                // Thêm gợi ý vào textarea
+                if (nhanXetTextarea.value.trim() === '') {
+                    nhanXetTextarea.value = suggestionText;
+                } else {
+                    // Kiểm tra và loại bỏ dấu chấm phẩy nếu ký tự cuối cùng đã là dấu chấm phẩy
+                    let currentValue = nhanXetTextarea.value.trim();
+                    if (currentValue.endsWith(';')) {
+                        nhanXetTextarea.value = currentValue + ' ' + suggestionText.toLowerCase();
+                    } else {
+                        nhanXetTextarea.value = currentValue + '; ' + suggestionText.toLowerCase();
+                    }
+                }
+                
+                nhanXetTextarea.focus();
+            });
+        });
+    });
+</script>
