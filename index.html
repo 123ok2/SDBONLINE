@@ -2,960 +2,357 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PTDTBT THCS THU CÚC</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* CSS CƠ BẢN VÀ THIẾT LẬP FONT (NẾU CÓ) */
-        body {
-            background-color: #f2f5f8; /* Nền xám xanh rất nhạt */
-        }
+        /* --- CẤU HÌNH CHUNG --- */
+        body { background-color: #f2f5f8; -webkit-tap-highlight-color: transparent; }
         
-        /* --- [MỚI] STYLE CHO CHỮ CHẠY (MARQUEE) --- */
-        #marquee-container {
-            flex-grow: 1; /* Cho phép nó mở rộng lấp đầy khoảng trống */
-            margin: 0 2rem;
-            height: 30px; /* Chiều cao cố định */
-            overflow: hidden; /* Quan trọng: Giấu phần chữ bị tràn */
-            white-space: nowrap; /* Quan trọng: Giữ chữ trên một dòng */
-            display: flex;
-            align-items: center;
-        }
+        /* --- MARQUEE --- */
+        #marquee-container { flex-grow: 1; margin: 0 2rem; height: 30px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
+        #marquee-text { display: inline-block; animation: marquee-motion 60s linear infinite; padding-left: 100%; }
+        @keyframes marquee-motion { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        @media (max-width: 768px) { #marquee-container { display: none; } }
 
-        #marquee-text {
-            display: inline-block;
-            animation: marquee-motion 60s linear infinite; /* Thời gian chạy: 15 giây */
-            padding-left: 100%; /* Đảm bảo chữ bắt đầu từ ngoài cùng bên phải */
-        }
-        
-        /* Keyframes: Định nghĩa hiệu ứng chạy */
-        @keyframes marquee-motion {
-            0% { transform: translateX(0); } /* Bắt đầu ở vị trí 0 (sau padding-left: 100%) */
-            100% { transform: translateX(-100%); } /* Kết thúc ở vị trí -100% (chạy hết nội dung) */
-        }
-        /* ------------------------------------------------ */
+        /* --- NAVBAR --- */
+        .navbar-top { position: fixed; top: 0; left: 0; right: 0; z-index: 40; background-color: white; box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08); padding: 0; }
+        .branding-strip { background-color: #031caa; color: white; padding: 0.5rem 1rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
 
-        /* --- STYLE CHO MENU NGANG (NAVBAR) --- */
-        .navbar-top {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 40; 
-            background-color: white;
-            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08); 
-            padding: 0; 
+        /* --- MENU DESKTOP (FIXED) --- */
+        .menu-wrapper { display: flex; align-items: center; justify-content: flex-start; padding: 0 2rem; border-bottom: 2px solid #e2e8f0; position: relative; z-index: 45; }
+        .menu-nav { display: flex; white-space: nowrap; width: max-content; }
+        
+        .menu-item, .menu-item-label { padding: 0.75rem 1rem; display: flex; align-items: center; cursor: pointer; transition: all 0.2s; white-space: nowrap; font-weight: 500; color: #000; }
+        .menu-item:hover, .menu-item.active, .menu-item-dropdown:hover .menu-item-label { background-color: #fef2f2; color: #ef4444; }
+        .menu-item.active, .menu-item-dropdown.active .menu-item-label { font-weight: 700; color: #ef4444; }
+        
+        /* DROPDOWN LOGIC (QUAN TRỌNG) */
+        .menu-item-dropdown { position: relative; height: 100%; }
+        
+        .dropdown-content {
+            display: none; position: absolute; top: 100%; left: 0; background-color: white;
+            min-width: 240px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); z-index: 50;
+            border: 1px solid #e2e8f0; border-radius: 0 0 8px 8px; animation: slideDown 0.2s ease-out;
+        }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* FIX: Cho phép Hover trên PC */
+        @media (min-width: 768px) {
+            .menu-item-dropdown:hover .dropdown-content { display: block; }
+            .menu-item-dropdown:hover ion-icon[name="chevron-down-outline"] { transform: rotate(180deg); transition: 0.3s; }
         }
         
-        /* Dải băng thương hiệu - ĐÃ ĐỔI SANG TÔNG ĐỎ ĐÔ */
-        .branding-strip {
-            background-color: #031caa; /* Màu Đỏ Đô (Red-800) */
-            color: white;
-            padding: 0.5rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+        /* Class open dùng cho JS toggle */
+        .menu-item-dropdown.open .dropdown-content { display: block; }
+        
+        .dropdown-item { padding: 12px 20px; display: flex; align-items: center; cursor: pointer; transition: 0.2s; color: #333; }
+        .dropdown-item:hover { background-color: #fef2f2; color: #ef4444; padding-left: 25px; }
 
-        /* Menu Wrapper - Thêm tính năng cuộn ngang */
-        /* Menu Wrapper - Đã sửa lỗi overflow */
-        .menu-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 0 2rem; 
-            border-bottom: 2px solid #e2e8f0; 
-            
-            /* Đã gỡ bỏ overflow-x: auto và các thuộc tính ẩn cuộn */
-            /* Điều này CẦN THIẾT để menu cấp 2 có thể nổi lên */
-            position: relative; /* Thêm vào để đảm bảo ngữ cảnh xếp chồng (z-index) */
-            z-index: 45;        /* Đặt cao hơn header (40) nhưng thấp hơn dropdown (50) */
-        }
-        /* (Không cần .menu-wrapper::-webkit-scrollbar nữa) */
-        .menu-nav {
-            display: flex;
-            white-space: nowrap;
-            width: max-content;
-        }
+        /* --- MOBILE SIDEBAR --- */
+        #mobile-sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background-color: white; z-index: 100; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 4px 0 25px rgba(0,0,0,0.15); overflow-y: auto; }
+        #mobile-sidebar.open { transform: translateX(0); }
+        #mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 90; opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(2px); }
+        #mobile-overlay.open { opacity: 1; visibility: visible; }
         
-        /* Style cho các mục menu CẤP 1 (MENU-ITEM) */
-        .menu-item {
-            position: relative; 
-            padding: 0.75rem 1rem;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-            font-weight: 500; 
-            color: #000000; /* text-slate-600 */
-        }
-        .menu-item:hover {
-            background-color: #fef2f2; /* hover:bg-red-50 */
-            color: #ef4444; /* text-red-500 */
-        }
-        .menu-item.active {
-            color: #ef4444; /* text-red-500 */
-            font-weight: 700; 
-        }
-        .menu-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; 
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #ef4444;
-        }
-        .menu-item ion-icon {
-            margin-right: 0.4rem;
-            font-size: 1.15rem; 
-        }
-        
-        /* ===== [MỚI] STYLE CHO MENU DROPDOWN CẤP 2 ===== */
-        .menu-item-dropdown {
-            position: relative;
-        }
-        .menu-item-dropdown .dropdown-content {
-            display: none; /* Mặc định ẩn */
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: white;
-            min-width: 200px; /* Độ rộng tối thiểu */
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            z-index: 50;
-            border: 1px solid #e2e8f0;
-            border-radius: 0 0 0.5rem 0.5rem;
-            overflow: hidden;
-            animation: fadeIn 0.2s ease-out;
-        }
-        /* Hiển thị khi có class 'open' */
-        .menu-item-dropdown.open .dropdown-content {
-            display: block;
-        }
-        /* Item con (cấp 2) */
-        .dropdown-content .dropdown-item {
-            padding: 0.75rem 1.25rem;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-            font-weight: 500; 
-            color: #000000; /* text-slate-600 */
-        }
-        .dropdown-content .dropdown-item:hover {
-            background-color: #fef2f2; /* hover:bg-red-50 */
-            color: #ef4444; /* text-red-500 */
-        }
-        .dropdown-content .dropdown-item ion-icon {
-            margin-right: 0.5rem;
-            font-size: 1.1rem;
-        }
-        /* Nhãn menu cấp 1 (chứa dropdown) */
-        .menu-item-dropdown > .menu-item-label {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-            font-weight: 500; 
-            color: #000000; /* text-slate-600 */
-            position: relative; /* Cho gạch chân active */
-        }
-        .menu-item-dropdown > .menu-item-label:hover {
-            background-color: #fef2f2; /* hover:bg-red-50 */
-            color: #ef4444; /* text-red-500 */
-        }
-        /* Style 'active' cho group dropdown */
-        .menu-item-dropdown.active > .menu-item-label {
-            color: #ef4444; /* text-red-500 */
-            font-weight: 700; 
-        }
-        .menu-item-dropdown.active > .menu-item-label::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; 
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #ef4444;
-        }
-        .menu-item-dropdown > .menu-item-label ion-icon {
-            margin-right: 0.4rem;
-            font-size: 1.15rem;
-        }
-        /* =============================================== */
+        .mobile-menu-item { padding: 14px 20px; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; font-weight: 500; color: #374151; transition: background 0.2s; }
+        .mobile-menu-item:active { background-color: #fee2e2; }
+        .mobile-menu-group-header { padding: 14px 20px; background-color: #fff; font-weight: 600; color: #111827; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f3f4f6; }
+        .mobile-sub-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; background-color: #f9fafb; }
+        .mobile-sub-menu.open { max-height: 500px; }
+        .mobile-sub-menu .mobile-menu-item { padding-left: 35px; border-bottom: 1px dashed #e5e7eb; font-size: 0.95rem; color: #4b5563; }
 
-        /* --- STYLE CHO MAIN CONTENT --- */
-        .main-content-wrapper {
-            padding-top: 8rem; 
-            flex: 1;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            padding-bottom: 2rem;
-        }
-        .main-content-area {
-            min-height: calc(100vh - 10rem); 
-            border-radius: 0.75rem; 
-        }
-        
-        /* --- STYLE CHO USER DROPDOWN (ĐÃ TINH CHỈNH TÙY BIẾN THEO NỘI DUNG) --- */
-        .user-profile-dropdown {
-            position: relative;
-        }
+        /* --- USER POPUP --- */
+        .user-profile-dropdown { position: relative; }
         .info-box-dropdown {
-            position: absolute;
-            right: 0;
-            top: 100%;
-            margin-top: 0.75rem;
-            /* ĐÃ BỎ fixed width: 19rem */
-            width: max-content; /* Mở rộng theo nội dung */
-            min-width: 25rem; /* Độ rộng tối thiểu để không quá hẹp */
-            max-width: 40rem; /* Độ rộng tối đa để không quá rộng */
-            background-color: rgb(255, 255, 255);
-            border-radius: 0.75rem; 
-            padding: 0; 
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2); 
-            z-index: 50;
-            border: 1px solid #e5e7eb;
-            animation: fadeIn 0.3s ease-out; 
-            overflow: hidden; 
+            position: absolute; right: 0; top: 120%; width: 300px; background: white; border-radius: 12px;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.3); z-index: 60; border: 1px solid #e5e7eb;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: scale(0.95); pointer-events: none; visibility: hidden;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .info-box-dropdown.show { opacity: 1; transform: scale(1); pointer-events: auto; visibility: visible; top: 110%; }
+        @media (max-width: 640px) {
+            .info-box-dropdown { position: fixed; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) scale(0.9) !important; width: 90%; max-width: 350px; margin: 0; right: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+            .info-box-dropdown.show { transform: translate(-50%, -50%) scale(1) !important; }
+            .info-box-dropdown.show::before { content: ''; position: fixed; inset: -1000px; background: rgba(0,0,0,0.5); z-index: -1; }
         }
-        
-        /* --- STYLE CHO BRANDING TEXT --- */
-        .school-name-h2 {
-            font-size: 1rem; /* Thay vì text-0.4xl, dùng 1rem */
-            white-space: nowrap;
-        }
-        .app-name-span {
-            font-size: 0.75rem; /* Thay vì text-0.5xl, dùng 0.75rem (text-sm) */
-        }
-        
-        /* ===== [MỚI] STYLE CHUNG CHO CÁC POPUP TOÀN MÀN HÌNH ===== */
-        /* Áp dụng cho contact-modal, onboarding-popup và greeting-popup */
-        .fullscreen-modal {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            opacity: 0;
-            visibility: hidden; /* Dùng visibility để đảm bảo không click xuyên qua được */
-        }
-        .fullscreen-modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        /* ======================================================== */
+
+        /* --- MAIN CONTENT --- */
+        .main-content-wrapper { padding-top: 70px; padding-bottom: 2rem; flex: 1; }
+        @media (min-width: 768px) { .main-content-wrapper { padding-top: 8rem; padding-left: 2rem; padding-right: 2rem; } }
+        .main-content-area { min-height: calc(100vh - 10rem); border-radius: 0.75rem; padding: 1rem; overflow-x: hidden; }
+        .table-responsive-fix { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem; border-radius: 8px; border: 1px solid #e5e7eb; }
+        .date-input-group-fix { display: flex; flex-direction: column; gap: 0.5rem; }
+        @media (min-width: 768px) { .date-input-group-fix { flex-direction: row; align-items: center; } }
+        .fullscreen-modal { transition: opacity 0.3s, visibility 0.3s; opacity: 0; visibility: hidden; }
+        .fullscreen-modal.show { opacity: 1; visibility: visible; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col text-gray-800">
 
     <header class="navbar-top"> 
-        
         <div class="branding-strip">
             <div class="flex items-center">
-                <ion-icon name="book-outline" class="text-3xl mr-3"></ion-icon> 
+                <button onclick="toggleMobileSidebar()" class="mr-3 text-white text-3xl md:hidden focus:outline-none"><ion-icon name="menu-outline"></ion-icon></button>
+                <ion-icon name="book-outline" class="text-3xl mr-3 hidden md:block"></ion-icon> 
                 <div class="flex flex-col items-start">
-                     <div class="hidden md:block school-name-h2 font-extrabold text-white" id="header-school-name-display">
-                        Đang tải tên trường...
-                     </div>
-                    <span class="app-name-span font-extrabold tracking-wide">Sổ Đầu Bài Online</span>
+                     <div class="hidden md:block text-sm font-bold text-white uppercase" id="header-school-name-display">Đang tải...</div>
+                    <span class="text-xs md:text-sm font-extrabold tracking-wide uppercase text-yellow-300">Sổ Đầu Bài Online</span>
                 </div>
             </div>
-            
-            <div id="marquee-container">
-                <p id="marquee-text" class="text-lg font-medium tracking-wide text-red-100"></p>
-            </div>
+            <div id="marquee-container"><p id="marquee-text" class="text-lg font-medium tracking-wide text-red-100"></p></div>
             <div class="user-profile-dropdown">
-                
-<button id="user-info-button" onclick="toggleDropdown()" class="flex items-center 
-        bg-red-700 hover:bg-red-600 text-white 
-        p-2 pl-4 rounded-full transition duration-300 
-        shadow-md hover:shadow-lg border border-red-800">                    <span id="user-info-name-short" class="font-semibold text-sm">Đang tải...</span>
-                    <ion-icon name="person-circle-outline" class="text-3xl ml-2"></ion-icon>
+                <button id="user-info-button" onclick="toggleUserDropdown()" class="flex items-center bg-red-700 hover:bg-red-600 text-white p-1 pl-3 pr-1 md:p-2 md:pl-4 rounded-full transition shadow-md border border-red-500">
+                    <span id="user-info-name-short" class="font-semibold text-sm mr-1">...</span><ion-icon name="person-circle-outline" class="text-3xl"></ion-icon>
                 </button>
-
-                <div id="user-dropdown-content" class="info-box-dropdown hidden 
-     shadow-2xl border border-gray-300 rounded-lg overflow-hidden 
-     w-80 transform origin-top-right z-50 bg-white"> 
-    
-    <div class="px-5 pt-4 pb-3 bg-red-800 text-white shadow-md">
-        <div class="flex items-center justify-between">
-            <div id="user-info-name" class="font-black text-2xl tracking-wide truncate">Đang tải...</div> 
-            <div class="text-xs font-bold bg-green-500 px-2 py-0.5 rounded-full shadow-lg">ONLINE</div>
-        </div>
-        <div id="user-info-email" class="text-sm text-red-100 truncate mt-1">user@example.com</div>
-        <div class="text-xs font-semibold text-red-300 mt-2">TÀI KHOẢN GIÁO VIÊN</div>
-    </div>
-    
-    <div class="px-5 py-4 bg-gray-50 border-b border-gray-200"> 
-        <div class="text-sm text-gray-800 space-y-4">
-            
-            <div id="user-info-subject" class="flex justify-between items-center pb-2 border-b border-gray-200">
-                <div class="flex items-center space-x-2 flex-shrink-0">
-                    <ion-icon name="bookmarks-outline" class="text-xl text-red-600"></ion-icon>
-                    <span class="font-semibold text-gray-600 uppercase">MÔN HỌC</span> 
+                <div id="user-dropdown-content" class="info-box-dropdown"> 
+                    <button onclick="toggleUserDropdown()" class="absolute top-2 right-2 text-white md:hidden z-10 p-1"><ion-icon name="close-circle" class="text-2xl"></ion-icon></button>
+                    <div class="px-5 pt-5 pb-4 bg-gradient-to-br from-red-800 to-red-900 text-white relative overflow-hidden">
+                        <div class="flex items-center justify-between relative z-10"><div id="user-info-name" class="font-bold text-xl truncate pr-2">Đang tải...</div></div>
+                        <div id="user-info-email" class="text-xs text-red-200 truncate mt-1 relative z-10">...</div>
+                        <div class="mt-3 inline-block bg-green-500/20 border border-green-400/50 rounded px-2 py-0.5 text-[10px] font-bold tracking-wider text-green-100">GIÁO VIÊN</div>
+                    </div>
+                    <div class="px-5 py-4 bg-white"> 
+                        <div class="space-y-3">
+                            <div id="user-info-subject" class="flex justify-between items-center text-sm border-b border-dashed pb-2"><span class="text-gray-500 font-medium">Môn dạy</span><span class="font-bold text-gray-800">...</span></div>
+                            <div id="user-info-school" class="flex justify-between items-start text-sm"><span class="text-gray-500 font-medium whitespace-nowrap mr-2">Đơn vị</span><span class="font-bold text-gray-800 text-right text-xs leading-tight">...</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-3 grid grid-cols-2 gap-3">
+                        <button onclick="document.getElementById('contact-modal').classList.add('show'); toggleUserDropdown();" class="flex flex-col items-center justify-center py-2 bg-white border rounded-lg shadow-sm hover:bg-gray-50 transition"><ion-icon name="help-buoy-outline" class="text-2xl text-blue-600 mb-1"></ion-icon><span class="text-xs font-semibold text-gray-600">Hỗ trợ</span></button>
+                        <button onclick="handleLogout()" class="flex flex-col items-center justify-center py-2 bg-red-50 border border-red-100 rounded-lg shadow-sm hover:bg-red-100 transition"><ion-icon name="log-out-outline" class="text-2xl text-red-600 mb-1"></ion-icon><span class="text-xs font-bold text-red-600">Đăng xuất</span></button>
+                    </div>
                 </div>
-                <span class="bg-red-100 text-red-800 text-xs font-extrabold px-3 py-1 rounded-full shadow-sm tracking-wider whitespace-nowrap">
-                    KHTN 1
-                </span>
-            </div>
-            
-            <div id="user-info-school" class="flex justify-between items-start pt-2">
-                <div class="flex items-center space-x-2 flex-shrink-0">
-                    <ion-icon name="business-outline" class="text-xl text-blue-700"></ion-icon>
-                    <span class="font-semibold text-gray-600 uppercase">ĐƠN VỊ</span> 
-                </div>
-                <span class="text-sm font-bold text-gray-800 text-right whitespace-nowrap ml-2">
-                    PTDTBT THCS THU CÚC
-                </span>
             </div>
         </div>
-    </div>
-    <div class="px-4 py-3 bg-gray-50 flex flex-col space-y-2">
         
-        <button onclick="document.getElementById('contact-modal').classList.add('show'); toggleDropdown();" 
-                class="contact-button w-full flex items-center space-x-2 py-2 px-3 text-sm font-semibold text-gray-700 
-                       hover:text-purple-700 hover:bg-gray-200 rounded-md transition duration-150">
-            <ion-icon name="help-circle-outline" class="text-xl text-purple-600"></ion-icon>
-            <span>Trung tâm Hỗ trợ & Trợ giúp</span> 
-        </button>
-        
-        <button onclick="handleLogout()" id="logout-button" 
-                class="logout-button-v2 w-full flex items-center justify-center space-x-2 py-2.5 px-3 text-sm font-bold text-white 
-                       bg-red-700 rounded-lg hover:bg-red-800 shadow-lg transition duration-150"> 
-            <ion-icon name="log-out-outline" class="text-lg"></ion-icon> 
-            <span>KẾT THÚC PHIÊN LÀM VIỆC</span>
-        </button>
-    </div>
-</div>
-                </div>
-        </div>
-        
-        <div class="menu-wrapper">
+        <div class="menu-wrapper hidden md:flex">
             <nav class="menu-nav"> 
-                
                 <div id="menu-group-1" class="menu-item-dropdown" onclick="toggleMenuDropdown(event, this)">
-                    <div class="menu-item-label">
-                        <ion-icon name="calendar-outline"></ion-icon>
-                        Quản lý TKB
-                        <ion-icon name="chevron-down-outline" class="ml-1 text-xs"></ion-icon>
-                    </div>
+                    <div class="menu-item-label"><ion-icon name="calendar-outline" class="text-lg mr-2"></ion-icon> Quản lý TKB <ion-icon name="chevron-down-outline" class="ml-1 text-xs opacity-60"></ion-icon></div>
                     <div class="dropdown-content">
-                        <div id="menu-1" class="dropdown-item" onclick="loadContent('menu1_tkb.html', this, 'menu-group-1')">
-                            <ion-icon name="calendar-outline"></ion-icon>
-                            Nhập TKB Cá Nhân
-                        </div>
-                        <div id="menu-9" class="dropdown-item" onclick="loadContent('menu9_tra_cuu.html', this, 'menu-group-1')">
-                            <ion-icon name="search-circle-outline"></ion-icon>
-                            Tra Cứu TKB
-                        </div>
+                        <div id="menu-1" class="dropdown-item" onclick="loadContent('menu1_tkb.html', this, 'menu-group-1')"><ion-icon name="create-outline" class="mr-2 text-blue-500"></ion-icon> Nhập TKB Cá Nhân</div>
+                        <div id="menu-9" class="dropdown-item" onclick="loadContent('menu9_tra_cuu.html', this, 'menu-group-1')"><ion-icon name="search-outline" class="mr-2 text-purple-500"></ion-icon> Tra Cứu TKB</div>
                     </div>
                 </div>
-                
                 <div id="menu-group-2" class="menu-item-dropdown" onclick="toggleMenuDropdown(event, this)">
-                    <div class="menu-item-label">
-                        <ion-icon name="create-outline"></ion-icon>
-                        Sổ Đầu Bài
-                        <ion-icon name="chevron-down-outline" class="ml-1 text-xs"></ion-icon>
-                    </div>
+                    <div class="menu-item-label"><ion-icon name="book-outline" class="text-lg mr-2"></ion-icon> Sổ Đầu Bài <ion-icon name="chevron-down-outline" class="ml-1 text-xs opacity-60"></ion-icon></div>
                     <div class="dropdown-content">
-                        <div id="menu-2" class="dropdown-item" onclick="loadContent('menu2_sdb.html', this, 'menu-group-2')">
-                            <ion-icon name="create-outline"></ion-icon>
-                            Ghi Sổ Đầu Bài
-                        </div>
-                        <div id="menu-3" class="dropdown-item" onclick="loadContent('menu3_history.html', this, 'menu-group-2')">
-                            <ion-icon name="archive-outline"></ion-icon>
-                            Lịch Sử Ghi
-                        </div>
+                        <div id="menu-2" class="dropdown-item" onclick="loadContent('menu2_sdb.html', this, 'menu-group-2')"><ion-icon name="pencil-outline" class="mr-2 text-green-500"></ion-icon> Ghi Sổ Đầu Bài</div>
+                        <div id="menu-3" class="dropdown-item" onclick="loadContent('menu3_history.html', this, 'menu-group-2')"><ion-icon name="time-outline" class="mr-2 text-orange-500"></ion-icon> Lịch Sử Ghi</div>
                     </div>
                 </div>
-                
-                <div id="menu-group-4" class="menu-item-dropdown" onclick="toggleMenuDropdown(event, this)">
-                    <div class="menu-item-label">
-                        <ion-icon name="bar-chart-outline"></ion-icon>
-                        Báo Cáo
-                        <ion-icon name="chevron-down-outline" class="ml-1 text-xs"></ion-icon>
-                    </div>
+                 <div id="menu-group-4" class="menu-item-dropdown" onclick="toggleMenuDropdown(event, this)">
+                    <div class="menu-item-label"><ion-icon name="stats-chart-outline" class="text-lg mr-2"></ion-icon> Báo Cáo <ion-icon name="chevron-down-outline" class="ml-1 text-xs opacity-60"></ion-icon></div>
                     <div class="dropdown-content">
-                        <div id="menu-4" class="dropdown-item" onclick="loadContent('menu4_report.html', this, 'menu-group-4')">
-                            <ion-icon name="alert-circle-outline"></ion-icon>
-                            Báo Cáo Giáo Viên
-                        </div>
-                        <div id="menu-7" class="dropdown-item" onclick="loadContent('menu7_admin_report.html', this, 'menu-group-4')">
-                            <ion-icon name="people-circle-outline"></ion-icon>
-                            Báo Cáo Toàn Trường
-                        </div>
+                        <div id="menu-4" class="dropdown-item" onclick="loadContent('menu4_report.html', this, 'menu-group-4')"><ion-icon name="person-outline" class="mr-2 text-teal-500"></ion-icon> Báo Cáo Cá Nhân</div>
+                        <div id="menu-7" class="dropdown-item" onclick="loadContent('menu7_admin_report.html', this, 'menu-group-4')"><ion-icon name="school-outline" class="mr-2 text-red-500"></ion-icon> Báo Cáo Toàn Trường</div>
                     </div>
                 </div>
-
-                <div id="menu-5" class="menu-item" onclick="loadContent('menu5_class_sdb.html', this)">
-                    <ion-icon name="book-outline"></ion-icon>
-                    SĐB Theo Lớp
-                </div>
-                <div id="menu-6" class="menu-item" onclick="loadContent('menu6_ranking.html', this)">
-                    <ion-icon name="podium-outline"></ion-icon>
-                    Xếp Hạng GV
-                </div>
-                <div id="menu-8" class="menu-item" onclick="loadContent('huong_dan_su_dung.html', this)">
-                    <ion-icon name="help-circle-outline"></ion-icon> Hướng dẫn sử dụng
-                </div>
-                
+                <div id="menu-5" class="menu-item" onclick="loadContent('menu5_class_sdb.html', this)"><ion-icon name="grid-outline" class="text-lg mr-2"></ion-icon> SĐB Theo Lớp</div>
+                <div id="menu-6" class="menu-item" onclick="loadContent('menu6_ranking.html', this)"><ion-icon name="trophy-outline" class="text-lg mr-2"></ion-icon> Xếp Hạng</div>
+                <div id="menu-8" class="menu-item" onclick="loadContent('huong_dan_su_dung.html', this)"><ion-icon name="information-circle-outline" class="text-lg mr-2"></ion-icon> Hướng dẫn</div>
             </nav>
         </div>
-        </header>
+    </header>
+
+    <div id="mobile-overlay" onclick="toggleMobileSidebar()"></div>
+    <div id="mobile-sidebar">
+        <div class="h-[60px] bg-[#031caa] text-white font-bold flex items-center justify-between px-4 shadow-md">
+            <span class="flex items-center"><ion-icon name="apps-outline" class="mr-2 text-xl"></ion-icon> DANH MỤC</span>
+            <button onclick="toggleMobileSidebar()" class="p-1"><ion-icon name="close-outline" class="text-2xl"></ion-icon></button>
+        </div>
+        <div class="py-2">
+            <div class="mobile-menu-group-header" onclick="toggleMobileSubMenu('mob-sub-1', this)"><span class="flex items-center"><ion-icon name="calendar-outline" class="mr-3 text-blue-600"></ion-icon> Quản lý TKB</span><ion-icon name="chevron-down-outline" class="transition-transform duration-300"></ion-icon></div>
+            <div id="mob-sub-1" class="mobile-sub-menu">
+                <div class="mobile-menu-item" onclick="loadContent('menu1_tkb.html'); toggleMobileSidebar()">Nhập TKB Cá Nhân</div>
+                <div class="mobile-menu-item" onclick="loadContent('menu9_tra_cuu.html'); toggleMobileSidebar()">Tra Cứu TKB</div>
+            </div>
+            <div class="mobile-menu-group-header" onclick="toggleMobileSubMenu('mob-sub-2', this)"><span class="flex items-center"><ion-icon name="create-outline" class="mr-3 text-green-600"></ion-icon> Sổ Đầu Bài</span><ion-icon name="chevron-down-outline" class="transition-transform duration-300"></ion-icon></div>
+            <div id="mob-sub-2" class="mobile-sub-menu">
+                <div class="mobile-menu-item" onclick="loadContent('menu2_sdb.html'); toggleMobileSidebar()">Ghi Sổ Đầu Bài</div>
+                <div class="mobile-menu-item" onclick="loadContent('menu3_history.html'); toggleMobileSidebar()">Lịch Sử Ghi</div>
+            </div>
+             <div class="mobile-menu-group-header" onclick="toggleMobileSubMenu('mob-sub-4', this)"><span class="flex items-center"><ion-icon name="stats-chart-outline" class="mr-3 text-orange-600"></ion-icon> Báo Cáo</span><ion-icon name="chevron-down-outline" class="transition-transform duration-300"></ion-icon></div>
+            <div id="mob-sub-4" class="mobile-sub-menu">
+                <div class="mobile-menu-item" onclick="loadContent('menu4_report.html'); toggleMobileSidebar()">Báo Cáo Cá Nhân</div>
+                <div class="mobile-menu-item" onclick="loadContent('menu7_admin_report.html'); toggleMobileSidebar()">Báo Cáo Toàn Trường</div>
+            </div>
+            <div class="mobile-menu-item" onclick="loadContent('menu5_class_sdb.html'); toggleMobileSidebar()"><ion-icon name="grid-outline" class="mr-3 text-teal-600"></ion-icon> SĐB Theo Lớp</div>
+            <div class="mobile-menu-item" onclick="loadContent('menu6_ranking.html'); toggleMobileSidebar()"><ion-icon name="trophy-outline" class="mr-3 text-yellow-500"></ion-icon> Xếp Hạng GV</div>
+            <div class="mobile-menu-item" onclick="loadContent('huong_dan_su_dung.html'); toggleMobileSidebar()"><ion-icon name="information-circle-outline" class="mr-3 text-gray-500"></ion-icon> Hướng dẫn sử dụng</div>
+        </div>
+    </div>
 
     <main class="main-content-wrapper">
-        <div id="main-content" class="bg-white p-10 rounded-xl shadow-lg main-content-area"> 
-            <h1 class="text-3xl font-extrabold text-gray-800 loading-text">Đang tải nội dung...</h1>
+        <div id="main-content" class="bg-white rounded-xl shadow-sm border border-gray-100 main-content-area"> 
+            <div class="flex flex-col items-center justify-center h-64 text-gray-400">
+                <ion-icon name="cloud-download-outline" class="text-4xl mb-2 animate-bounce"></ion-icon><span class="text-sm font-medium">Đang tải dữ liệu...</span>
+            </div>
         </div>
     </main>
 
-    <div id="contact-modal" class="fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center z-50 fullscreen-modal">
-        <div id="contact-modal-content" class="bg-white p-8 rounded-2xl shadow-3xl max-w-md w-full">
-            <div class="flex justify-between items-start mb-6 border-b pb-3">
-                <h2 class="text-2xl font-bold text-indigo-600 flex items-center">
-                    <ion-icon name="person-circle-outline" class="mr-3 text-3xl"></ion-icon>
-                    Liên hệ Tác giả
-                </h2>
-                <button onclick="document.getElementById('contact-modal').classList.remove('show')" class="text-gray-400 hover:text-gray-600 transition">
-                    <ion-icon name="close-circle-outline" class="text-3xl"></ion-icon>
-                </button>
+    <div id="contact-modal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-[70] fullscreen-modal backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden animate-zoomIn">
+            <div class="bg-indigo-600 p-4 flex justify-between items-center text-white"><h2 class="text-lg font-bold flex items-center"><ion-icon name="headset-outline" class="mr-2"></ion-icon> Liên hệ hỗ trợ</h2><button onclick="document.getElementById('contact-modal').classList.remove('show')" class="text-white/80 hover:text-white"><ion-icon name="close" class="text-2xl"></ion-icon></button></div>
+            <div class="p-5 space-y-4">
+                <a href="tel:0868640898" class="flex items-center p-3 bg-gray-50 rounded-xl hover:bg-blue-50 transition border border-gray-100"><div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3"><ion-icon name="call" class="text-xl"></ion-icon></div><div><div class="text-xs text-gray-500 font-bold uppercase">Hotline</div><div class="text-gray-800 font-bold">0868.640.898</div></div></a>
+                <a href="mailto:duyconghanh2017@gmail.com" class="flex items-center p-3 bg-gray-50 rounded-xl hover:bg-red-50 transition border border-gray-100"><div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center mr-3"><ion-icon name="mail" class="text-xl"></ion-icon></div><div><div class="text-xs text-gray-500 font-bold uppercase">Email</div><div class="text-gray-800 font-bold truncate max-w-[180px]">duyconghanh2017@gmail.com</div></div></a>
+                <a href="https://facebook.com/1994duyhanh" target="_blank" class="flex items-center p-3 bg-gray-50 rounded-xl hover:bg-indigo-50 transition border border-gray-100"><div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mr-3"><ion-icon name="logo-facebook" class="text-xl"></ion-icon></div><div><div class="text-xs text-gray-500 font-bold uppercase">Facebook</div><div class="text-gray-800 font-bold">Duy Hạnh</div></div></a>
             </div>
-            
-            <div class="space-y-4">
-                <div class="flex items-center contact-detail-item">
-                    <ion-icon name="call-outline" class="text-2xl text-indigo-500 mr-4"></ion-icon>
-                    <div>
-                        <div class="text-xs font-semibold text-gray-500">Điện thoại</div>
-                        <a href="tel:0868640898" class="text-lg font-medium text-gray-800 hover:text-indigo-600 transition">0868.640.898</a>
-                    </div>
-                </div>
-                
-                <div class="flex items-center contact-detail-item">
-                    <ion-icon name="mail-outline" class="text-2xl text-indigo-500 mr-4"></ion-icon>
-                    <div>
-                        <div class="text-xs font-semibold text-gray-500">Email</div>
-                        <a href="mailto:duyconghanh2017@gmail.com" class="text-lg font-medium text-gray-800 hover:text-indigo-600 transition truncate">duyconghanh2017@gmail.com</a>
-                    </div>
-                </div>
-                
-                <div class="flex items-center contact-detail-item">
-                    <ion-icon name="location-outline" class="text-2xl text-indigo-500 mr-4"></ion-icon>
-                    <div>
-                        <div class="text-xs font-semibold text-gray-500">Địa chỉ</div>
-                        <div class="text-lg font-medium text-gray-800">Thu Cúc, Tân Sơn, Phú Thọ</div>
-                    </div>
-                </div>
-                
-                <div class="flex items-center contact-detail-item">
-                    <ion-icon name="logo-facebook" class="text-2xl text-indigo-500 mr-4"></ion-icon>
-                    <div>
-                        <div class="text-xs font-semibold text-gray-500">Facebook</div>
-                        <a href="https://facebook.com/1994duyhanh" target="_blank" class="text-lg font-medium text-gray-800 hover:text-indigo-600 transition">facebook.com/1994duyhanh</a>
-                    </div>
-                </div>
-            </div>
-
-            <button onclick="document.getElementById('contact-modal').classList.remove('show')" class="mt-6 w-full py-2 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 transition duration-200">
-                Đóng
-            </button>
-
+            <div class="p-4 bg-gray-50 border-t text-center"><button onclick="document.getElementById('contact-modal').classList.remove('show')" class="text-gray-500 font-semibold hover:text-gray-800 text-sm">Đóng cửa sổ</button></div>
         </div>
     </div>
     
-    <div id="greeting-popup" class="fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center z-50 fullscreen-modal">
-        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-lg w-full text-center">
-            <h2 id="greeting-title" class="text-2xl font-extrabold text-indigo-600 mb-4"></h2>
-            <p id="greeting-message" class="text-xl text-gray-700 mb-6"></p>
-            <button onclick="document.getElementById('greeting-popup').classList.remove('show')" 
-                    class="py-3 px-8 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition duration-200 shadow-lg">
-                Tuyệt vời!
-            </button>
+    <div id="greeting-popup" class="fixed inset-0 bg-black/70 flex items-center justify-center z-[70] fullscreen-modal backdrop-blur-sm px-4">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full text-center relative overflow-hidden">
+             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+            <ion-icon name="sparkles" class="text-5xl text-yellow-400 mb-3"></ion-icon><h2 id="greeting-title" class="text-xl font-bold text-gray-800 mb-2">Xin chào!</h2><p id="greeting-message" class="text-gray-600 mb-6 text-sm leading-relaxed"></p>
+            <button onclick="document.getElementById('greeting-popup').classList.remove('show')" class="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform active:scale-95 transition">Bắt đầu làm việc</button>
         </div>
     </div>
     
-    <div id="onboarding-popup" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 fullscreen-modal">
-        <div class="bg-white p-10 rounded-2xl shadow-2xl max-w-md w-full onboarding-popup-content"> 
-            <h2 class="text-3xl font-bold text-indigo-600 mb-6 border-b pb-2">👋 Chào mừng!</h2>
-            <p class="mb-6 text-gray-700 text-base">Để tiếp tục sử dụng, vui lòng cập nhật thông tin cơ bản của bạn (Họ tên, Môn, Trường).</p>
-            <form id="onboarding-form">
-                <div class="mb-4">
-                    <label for="ho-ten" class="block text-sm font-medium text-gray-700 mb-1">Họ và Tên</label>
-                    <input type="text" id="ho-ten" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
-                </div>
-                <div class="mb-4">
-                    <label for="mon-hoc" class="block text-sm font-medium text-gray-700 mb-1">Môn Dạy</label>
-                    <input type="text" id="mon-hoc" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
-                </div>
-                <div class="mb-6">
-                    <label for="truong-hoc" class="block text-sm font-medium text-gray-700 mb-1">Trường Học</label>
-                    <input type="text" id="truong-hoc" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
-                </div>
-                <button type="submit" id="save-profile-button" class="w-full py-3 px-6 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition duration-200 shadow-lg"> 
-                    Lưu Thông Tin
-                </button>
+    <div id="onboarding-popup" class="fixed inset-0 bg-white z-[80] fullscreen-modal flex flex-col items-center justify-center p-6">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-8"><div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600"><ion-icon name="person-add" class="text-4xl"></ion-icon></div><h2 class="text-2xl font-bold text-gray-900">Cập nhật hồ sơ</h2><p class="text-gray-500 text-sm mt-2">Vui lòng cung cấp thông tin để hệ thống ghi nhận chính xác.</p></div>
+            <form id="onboarding-form" class="space-y-4">
+                <div><label class="block text-sm font-medium text-gray-700 mb-1">Họ và Tên</label><input type="text" id="ho-ten" required placeholder="Ví dụ: Nguyễn Văn A" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"></div>
+                <div><label class="block text-sm font-medium text-gray-700 mb-1">Môn Giảng Dạy</label><input type="text" id="mon-hoc" required placeholder="Ví dụ: Toán, KHTN..." class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"></div>
+                <div><label class="block text-sm font-medium text-gray-700 mb-1">Đơn vị công tác</label><input type="text" id="truong-hoc" required value="PTDTBT THCS THU CÚC" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"></div>
+                <button type="submit" id="save-profile-button" class="w-full py-3.5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-lg mt-4 transition">Hoàn tất & Tiếp tục</button>
             </form>
         </div>
     </div>
 
-
     <script type="module">
-        // Import các hàm cần thiết từ Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        // Import Firestore (Cần thiết cho Onboarding)
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Cấu hình Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyDLkqxwvJHVzB_PhsYWnI2R8yWe4kyRwJ8",
-            authDomain: "okok-d34a7.firebaseapp.com",
-            projectId: "okok-d34a7",
-            storageBucket: "okok-d34a7.firebasestorage.app",
-            messagingSenderId: "131453877704",
-            appId: "1:131453877704:web:62b32f9e9cab317e2194fd",
-            measurementId: "G-0M1XEXL9K6"
-        };
-
-        // Khởi tạo Firebase
+        const firebaseConfig = { apiKey: "AIzaSyDLkqxwvJHVzB_PhsYWnI2R8yWe4kyRwJ8", authDomain: "okok-d34a7.firebaseapp.com", projectId: "okok-d34a7", storageBucket: "okok-d34a7.firebasestorage.app", messagingSenderId: "131453877704", appId: "1:131453877704:web:62b32f9e9cab317e2194fd", measurementId: "G-0M1XEXL9K6" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app); // Khởi tạo Firestore
-        
-        const onboardingPopup = document.getElementById('onboarding-popup');
-        const onboardingForm = document.getElementById('onboarding-form');
-        const saveProfileButton = document.getElementById('save-profile-button');
+        const db = getFirestore(app); 
         const mainContent = document.getElementById('main-content');
-        const userDropdownContent = document.getElementById('user-dropdown-content');
-        const contactModal = document.getElementById('contact-modal'); // Lấy contact modal
-
         let currentUserId = null;
 
-        // START: LOGIC CHO POPUP CHÀO MỪNG THEO THỜI GIAN THỰC
-        const greetingPopup = document.getElementById('greeting-popup');
-        const greetingTitle = document.getElementById('greeting-title');
-        const greetingMessage = document.getElementById('greeting-message');
-
-        // Hàm lấy lời chào đa dạng theo thời gian thực
-        function getGreetingByTime(userName) { 
-            const hour = new Date().getHours();
-            let title;
-            let messages;
-            
-            // SỬ DỤNG TÊN ĐẦY ĐỦ ĐÃ CẬP NHẬT TỪ FIRESTORE
-            const displayUserName = userName || "Giáo viên"; 
-
-            if (hour >= 5 && hour < 12) {
-                // Buổi sáng (5h - 11h59)
-                title = `Chào buổi sáng, ${displayUserName}!`; 
-                messages = [
-                    "Chúc bạn một ngày học tập hứng khởi, tràn đầy năng lượng và hiệu quả! ☀️",
-                    "Mỗi ngày là một khởi đầu mới. Chúc bạn lan tỏa nguồn cảm hứng tốt đẹp nhất đến học trò! ✨",
-                    "Chúc bạn có những tiết dạy thành công và nhận được nhiều niềm vui từ bục giảng! 📚",
-                    "Chúc bạn một ngày làm việc suôn sẻ và gặt hái nhiều kết quả tốt đẹp! 💪"
-                ];
-            } else if (hour >= 12 && hour < 18) {
-                // Buổi chiều (12h - 17h59)
-                title = `Chào buổi chiều, ${displayUserName}!`; 
-                messages = [
-                    "Thời gian làm việc buổi chiều đã bắt đầu! Chúc bạn giữ vững tinh thần và hoàn thành tốt nhiệm vụ! ☕",
-                    "Buổi chiều trôi qua thật nhanh. Chúc bạn có những khoảnh khắc đáng nhớ cùng học sinh! 🍎",
-                    "Chúc bạn tiếp tục phát huy sự sáng tạo và năng động trong các tiết học còn lại! 💡",
-                    "Chỉ còn vài tiết nữa là kết thúc ngày. Cố lên nhé! Chúc bạn may mắn! 😊"
-                ];
-            } else {
-                // Buổi tối/Đêm (18h - 4h59)
-                title = `Chào buổi tối, ${displayUserName}!`; 
-                messages = [
-                    "Đã đến lúc nghỉ ngơi sau một ngày dài. Chúc bạn một buổi tối thư giãn và ấm áp! 🌙",
-                    "Bạn có thể dành thời gian này để chuẩn bị cho bài giảng hôm sau. Chúc bạn có nhiều ý tưởng mới! 📝",
-                    "Hãy để mọi căng thẳng lại phía sau. Chúc bạn ngủ ngon và tái tạo năng lượng! 🧘",
-                    "Xin cảm ơn những cống hiến của bạn. Chúc bạn có khoảng thời gian chất lượng bên gia đình! ❤️"
-                ];
-            }
-
-            // Chọn ngẫu nhiên một thông điệp
-            const randomIndex = Math.floor(Math.random() * messages.length);
-            const message = messages[randomIndex];
-
-            return { title, message };
+        // --- MENU LOGIC (DESKTOP & MOBILE) ---
+        window.toggleMobileSidebar = () => {
+            document.getElementById('mobile-sidebar').classList.toggle('open');
+            document.getElementById('mobile-overlay').classList.toggle('open');
+        }
+        
+        window.toggleMobileSubMenu = (id, headerElement) => {
+            const sub = document.getElementById(id);
+            const icon = headerElement.querySelector('ion-icon[name="chevron-down-outline"]');
+            if(sub.classList.contains('open')) { sub.classList.remove('open'); icon.style.transform = 'rotate(0deg)'; } 
+            else { document.querySelectorAll('.mobile-sub-menu').forEach(el => el.classList.remove('open')); document.querySelectorAll('.mobile-menu-group-header ion-icon[name="chevron-down-outline"]').forEach(el => el.style.transform = 'rotate(0deg)'); sub.classList.add('open'); icon.style.transform = 'rotate(180deg)'; }
         }
 
-        // Hàm kiểm tra và hiển thị Popup (Luôn hiển thị khi load trang)
-        function showGreetingPopup(userName) { 
-            // 1. Lấy lời chào và cập nhật nội dung
-            const { title, message } = getGreetingByTime(userName); 
-            greetingTitle.textContent = title;
-            greetingMessage.textContent = message;
-
-            // 2. Hiển thị Popup bằng class 'show'
-            greetingPopup.classList.add('show');
-            
-            // 3. Đảm bảo nút đóng hoạt động
-            document.querySelector('#greeting-popup button').onclick = () => {
-                greetingPopup.classList.remove('show');
-            };
+        // FIX: Toggle Dropdown cho PC (Click logic)
+        window.toggleMenuDropdown = function(event, element) {
+            if(event) event.stopPropagation();
+            document.querySelectorAll('.menu-item-dropdown').forEach(item => { if (item !== element) item.classList.remove('open'); });
+            element.classList.toggle('open');
         }
-        // END: LOGIC CHO POPUP CHÀO MỪNG THEO THỜI GIAN THỰC
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.menu-item-dropdown')) { document.querySelectorAll('.menu-item-dropdown').forEach(item => item.classList.remove('open')); }
+        });
 
-        // Tải thông tin cá nhân và hiển thị
-        async function loadUserInfo(userId) { 
-            const profileRef = doc(db, "users", userId, "profile", "data");
-            const emailElement = document.getElementById('user-info-email');
-            const nameElement = document.getElementById('user-info-name');
-            const nameShortElement = document.getElementById('user-info-name-short'); 
-            const subjectElement = document.getElementById('user-info-subject');
-            const schoolElement = document.getElementById('user-info-school');
-            // LẤY ELEMENT TÊN TRƯỜNG TRÊN HEADER
-            const headerSchoolNameElement = document.getElementById('header-school-name-display'); 
-
-            if(auth.currentUser) {
-                emailElement.textContent = auth.currentUser.email;
-                emailElement.title = auth.currentUser.email;
-            }
-
-            try {
-                const docSnap = await getDoc(profileRef);
-                const defaultSchoolName = "TRƯỜNG PTDTBT THCS THU CÚC"; 
-
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    const hoTen = data.hoTen || "Giáo Viên (Chưa cập nhật)";
-                    const truongHoc = data.truongHoc || defaultSchoolName;
-                    
-                    nameElement.textContent = hoTen;
-                    const shortName = hoTen.split(' ').pop() || "GV";
-                    nameShortElement.textContent = shortName; 
-                    
-                    // CẬP NHẬT CODE HIỂN THỊ TRONG DROPDOWN
-                    subjectElement.innerHTML = `<div class="flex items-center space-x-2 flex-shrink-0"><ion-icon name="bookmarks-outline" class="text-xl text-red-600"></ion-icon><span class="font-semibold text-gray-600 uppercase">MÔN HỌC</span></div><span class="bg-red-100 text-red-800 text-xs font-extrabold px-3 py-1 rounded-full shadow-sm tracking-wider whitespace-nowrap">${data.monHoc || "..."}</span>`;
-                    schoolElement.innerHTML = `<div class="flex items-center space-x-2 flex-shrink-0"><ion-icon name="business-outline" class="text-xl text-blue-700"></ion-icon><span class="font-semibold text-gray-600 uppercase">ĐƠN VỊ</span></div><span class="text-sm font-bold text-gray-800 text-right whitespace-nowrap ml-2">${truongHoc}</span>`;
-                    
-                    // CẬP NHẬT CODE HIỂN THỊ TÊN TRƯỜNG TRÊN HEADER
-                    if (headerSchoolNameElement) {
-                        headerSchoolNameElement.textContent = truongHoc; 
-                    }
-                    
-                    return hoTen; 
-                    
-                } else {
-                    nameElement.textContent = "Giáo Viên (Chưa cập nhật)";
-                    nameShortElement.textContent = "GV";
-                    
-                    // CODE MẶC ĐỊNH KHI CHƯA CÓ DỮ LIỆU CŨNG DÙNG CÁC CLASS MỚI
-                    subjectElement.innerHTML = `<div class="flex items-center space-x-2 flex-shrink-0"><ion-icon name="bookmarks-outline" class="text-xl text-red-600"></ion-icon><span class="font-semibold text-gray-600 uppercase">MÔN HỌC</span></div><span class="bg-red-100 text-red-800 text-xs font-extrabold px-3 py-1 rounded-full shadow-sm tracking-wider whitespace-nowrap">...</span>`;
-                    schoolElement.innerHTML = `<div class="flex items-center space-x-2 flex-shrink-0"><ion-icon name="business-outline" class="text-xl text-blue-700"></ion-icon><span class="font-semibold text-gray-600 uppercase">ĐƠN VỊ</span></div><span class="text-sm font-bold text-gray-800 text-right whitespace-nowrap ml-2">${defaultSchoolName}</span>`;
-                    
-                    // CẬP NHẬT TÊN TRƯỜNG TRÊN HEADER VỚI TÊN MẶC ĐỊNH
-                    if (headerSchoolNameElement) {
-                        headerSchoolNameElement.textContent = defaultSchoolName; 
-                    }
-                    
-                    return "Giáo Viên"; 
-                }
-            } catch (error) {
-                console.error("Lỗi tải thông tin GV:", error);
-                nameElement.textContent = "Lỗi tải thông tin";
-                nameShortElement.textContent = "Lỗi";
-                
-                return "Giáo Viên"; 
-            }
-        }
-
-        // Xử lý đóng mở Dropdown thông tin người dùng
-        window.toggleDropdown = function() {
-            userDropdownContent.classList.toggle('hidden');
-        }
-        // Đóng dropdown user khi click bên ngoài
+        // --- USER DROPDOWN ---
+        window.toggleUserDropdown = () => document.getElementById('user-dropdown-content').classList.toggle('show');
         document.addEventListener('click', function(event) {
             const dropdown = document.getElementById('user-dropdown-content');
             const button = document.getElementById('user-info-button');
-            if (dropdown && button && !dropdown.contains(event.target) && !button.contains(event.target)) {
-                dropdown.classList.add('hidden');
-            }
+            if (dropdown.classList.contains('show') && !dropdown.contains(event.target) && !button.contains(event.target)) dropdown.classList.remove('show');
         });
 
-
-        // ========== LOGIC XỬ LÝ MENU DROPDOWN CẤP 2 ==========
-        // Xử lý đóng mở Menu Dropdown cấp 2
-        window.toggleMenuDropdown = function(event, element) {
-            // Ngăn click lan ra document, nhưng chỉ khi click vào label
-            if (event.target.closest('.menu-item-label')) {
-                 event.stopPropagation(); 
-            
-                // Đóng tất cả các menu khác
-                document.querySelectorAll('.menu-item-dropdown').forEach(item => {
-                    if (item !== element) {
-                        item.classList.remove('open');
-                    }
-                });
-                // Toggle menu hiện tại
-                element.classList.toggle('open');
-            }
-            // Nếu click vào dropdown-item, sự kiện click sẽ do loadContent xử lý (và đóng menu)
-        }
-
-        // Đóng menu cấp 2 khi click ra ngoài
-        document.addEventListener('click', function(event) {
-            document.querySelectorAll('.menu-item-dropdown.open').forEach(menu => {
-                if (!menu.contains(event.target)) {
-                    menu.classList.remove('open');
-                }
-            });
-        });
-        // ==========================================================
-
-
-        // Lắng nghe trạng thái đăng nhập
-        onAuthStateChanged(auth, async (user) => { // <-- Đã sửa: Thêm async
-            if (user) {
-                currentUserId = user.uid; 
-                if (window.appLogic && typeof window.appLogic.setLogicUserId === 'function') {
-                    window.appLogic.setLogicUserId(currentUserId);
-                }
-                
-                checkOnboarding(currentUserId);
-                
-                // [CẬP NHẬT] Chờ tải tên trước khi chào
-                const userName = await loadUserInfo(currentUserId); // <-- Đã sửa: Lấy tên người dùng
-
-                // GỌI HÀM CHÀO MỪNG TẠI ĐÂY 
-                showGreetingPopup(userName); // <-- Đã sửa: Truyền tên người dùng
-                
-                // [CẬP NHẬT] Tải nội dung Menu 1 làm mặc định
-                loadContent('menu1_tkb.html', document.getElementById('menu-1'), 'menu-group-1');
-
-            } else {
-                window.location.href = "login_page.html";
-            }
-        });
-
-        // Hàm kiểm tra Onboarding
-        async function checkOnboarding(userId) {
-            const profileRef = doc(db, "users", userId, "profile", "data"); 
-            try {
-                const docSnap = await getDoc(profileRef);
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    if (!data.hoTen || !data.monHoc || !data.truongHoc) {
-                        onboardingPopup.classList.add('show');
-                    } else {
-                        onboardingPopup.classList.remove('show');
-                    }
-                } else {
-                    onboardingPopup.classList.add('show');
-                }
-            } catch (error) {
-                console.error("Lỗi kiểm tra onboarding:", error);
-            }
-        }
-
-        // Xử lý lưu thông tin Onboarding
-        onboardingForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUserId) return;
-
-            saveProfileButton.disabled = true;
-            saveProfileButton.textContent = "Đang lưu...";
-
-            const hoTen = document.getElementById('ho-ten').value;
-            const monHoc = document.getElementById('mon-hoc').value;
-            const truongHoc = document.getElementById('truong-hoc').value;
-
-            const profileRef = doc(db, "users", currentUserId, "profile", "data");
-            const userListRef = doc(db, "public_data", "user_list_doc");
-
-            try {
-                await setDoc(profileRef, {
-                    hoTen: hoTen,
-                    monHoc: monHoc,
-                    truongHoc: truongHoc
-                }, { merge: true });
-
-                await setDoc(userListRef, {
-                    users: {
-                        [currentUserId]: hoTen
-                    }
-                }, { merge: true });
-
-                onboardingPopup.classList.remove('show');
-                loadUserInfo(currentUserId); // Cập nhật lại thông tin sau khi lưu
-                alert("Cập nhật thông tin thành công!");
-
-            } catch (error) {
-                console.error("Lỗi lưu profile hoặc danh sách công khai:", error);
-                alert("Lưu thông tin thất bại. Vui lòng thử lại.");
-            } finally {
-                saveProfileButton.disabled = false;
-                saveProfileButton.textContent = "Lưu Thông Tin";
-            }
-        });
-
-
-        // Xử lý Đăng Xuất
-        window.handleLogout = async function() {
-            const logoutButton = document.getElementById('logout-button');
-            logoutButton.disabled = true;
-            logoutButton.textContent = "Đang đăng xuất...";
-            logoutButton.classList.add('opacity-50');
-
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error("Lỗi đăng xuất:", error);
-                alert("Đăng xuất thất bại. Vui lòng thử lại.");
-                logoutButton.disabled = false;
-                logoutButton.textContent = "Đăng Xuất";
-                logoutButton.classList.remove('opacity-50');
-            }
-        }
-
-        // === [CẬP NHẬT] Hàm Tải Nội Dung Động (SPA Logic) Hỗ trợ Menu Cấp 2 ===
+        // --- LOAD CONTENT ---
         window.loadContent = async function(pageUrl, clickedElement, parentGroupId = null) {
-            
-            // 1. Xóa active trên tất cả các item cấp 1 (menu-item) và group (menu-item-dropdown)
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.querySelectorAll('.menu-item-dropdown').forEach(item => {
-                item.classList.remove('active');
-            });
-
-            // 2. Thêm active cho item được click
-            if (parentGroupId) {
-                // Đây là item cấp 2 (dropdown-item)
-                const parentGroup = document.getElementById(parentGroupId);
-                if(parentGroup) {
-                    parentGroup.classList.add('active');
-                    // Đóng dropdown sau khi click
-                    parentGroup.classList.remove('open');
-                }
-            } else if (clickedElement) {
-                // Đây là item cấp 1 (menu-item)
-                clickedElement.classList.add('active');
+            if(clickedElement) {
+                document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+                document.querySelectorAll('.menu-item-dropdown').forEach(item => item.classList.remove('active'));
+                if (parentGroupId) { const parentGroup = document.getElementById(parentGroupId); if(parentGroup) { parentGroup.classList.add('active'); parentGroup.classList.remove('open'); } } 
+                else { clickedElement.classList.add('active'); }
             }
-
-            // 3. Tải nội dung
-            mainContent.innerHTML = '<h1 class="text-3xl font-extrabold text-gray-800 loading-text">Đang tải nội dung...</h1>';
-
+            mainContent.innerHTML = `<div class="animate-pulse p-4 space-y-4"><div class="h-8 bg-gray-200 rounded w-1/3"></div><div class="h-32 bg-gray-100 rounded"></div></div>`;
             try {
                 const response = await fetch(pageUrl);
-                if (!response.ok) {
-                    throw new Error(`Không thể tải ${pageUrl}. Status: ${response.status}`);
-                }
-                const content = await response.text();
+                if (!response.ok) throw new Error("Error");
+                let content = await response.text();
+                // CSS Fix injection
+                if (content.includes('<table')) { content = content.replace(/<table/g, '<div class="table-responsive-fix"><table').replace(/<\/table>/g, '</table></div>'); }
+                content = content.replace(/flex items-center space-x-4/g, 'date-input-group-fix').replace(/flex items-center/g, 'date-input-group-fix');
                 mainContent.innerHTML = content;
-
-                // 4. [CẬP NHẬT] Gọi logic cho các trang
                 setTimeout(() => {
                     if (window.appLogic) {
-                        switch (pageUrl) {
-                            // GỘP 1
-                            case 'menu1_tkb.html':
-                                window.appLogic.initMenu1();
-                                break;
-                            case 'menu9_tra_cuu.html':
-                                window.appLogic.initMenu9();
-                                break;
-                            
-                            // GỘP 2
-                            case 'menu2_sdb.html':
-                                window.appLogic.initMenu2();
-                                break;
-                            case 'menu3_history.html':
-                                window.appLogic.initMenu3();
-                                break;
-
-                            // GỘP 3
-                            case 'menu4_report.html':
-                                window.appLogic.initMenu4();
-                                break;
-                            case 'menu7_admin_report.html': 
-                                window.appLogic.initMenu7();
-                                break;
-
-                            // CÁC MENU LẺ
-                            case 'menu5_class_sdb.html':
-                                window.appLogic.initMenu5();
-                                break;
-                            case 'menu6_ranking.html':
-                                window.appLogic.initMenu6();
-                                break;
-                            
-                            // (menu8 huong_dan_su_dung.html không có init)
-                            }
+                        const logicMap = { 'menu1_tkb.html': 'initMenu1', 'menu9_tra_cuu.html': 'initMenu9', 'menu2_sdb.html': 'initMenu2', 'menu3_history.html': 'initMenu3', 'menu4_report.html': 'initMenu4', 'menu7_admin_report.html': 'initMenu7', 'menu5_class_sdb.html': 'initMenu5', 'menu6_ranking.html': 'initMenu6' };
+                        if(logicMap[pageUrl]) window.appLogic[logicMap[pageUrl]]();
                     }
-                }, 10); // 10ms delay
-
-            } catch (error) {
-                console.error("Lỗi tải nội dung:", error);
-                mainContent.innerHTML = `<h1 class="text-3xl font-extrabold text-red-600">Lỗi!</h1><p class="text-lg mt-3">Không thể tải nội dung trang <strong>${pageUrl}</strong>. Vui lòng kiểm tra xem tệp này có tồn tại không và thử lại.</p>`;
-            }
+                }, 50);
+            } catch (error) { mainContent.innerHTML = `<div class="text-center p-10 text-red-500"><ion-icon name="alert-circle" class="text-4xl"></ion-icon><p>Không tải được nội dung.</p></div>`; }
         }
         
-        // === [MỚI] LOGIC CHỮ CHẠY NGẪU NHIÊN ===
-        const teacherQuotes = [
-            "Hạnh phúc của người Thầy là thấy học trò mình trưởng thành và thành công. 😊",
-            "Mỗi học sinh là một hạt giống, Giáo viên là người vun trồng. ươm mầm tài năng Việt Nam. 🇻🇳",
-            "Giáo dục không phải là đổ đầy xô nước, mà là thắp lên ngọn lửa trong tâm hồn. 🔥",
-            "Tri thức là ánh sáng, Giáo viên là người dẫn đường cho ánh sáng ấy. ✨",
-            "Lòng kiên nhẫn của Thầy Cô là chìa khóa mở cánh cửa tri thức cho trò. 🔑",
-            "Không có người học dốt, chỉ có người Thầy chưa tìm ra phương pháp. 💡",
-            "Hãy là nguồn cảm hứng chứ không chỉ là nguồn kiến thức. 🌈",
-            "Sự tôn trọng lớn nhất dành cho Thầy Cô là thành quả học tập của học trò. 🏆",
-            "Nghề Giáo là nghề cao quý nhất trong các nghề cao quý. ❤️",
-            "Một lời động viên kịp thời có thể thay đổi cuộc đời một đứa trẻ. 🌟",
-            "Dạy học là học hai lần. Hãy học hỏi không ngừng! 📚",
-            "Người Thầy vĩ đại là người biết cách lắng nghe học trò của mình. 👂",
-            "Hãy gieo hạt niềm tin, bạn sẽ gặt hái thành công. 🌱",
-            "Đừng chỉ dạy điều phải nghĩ, hãy dạy cách phải nghĩ. 🤔",
-            "Mỗi ngày đến trường là một niềm vui và một cơ hội mới để cống hiến. 🥳",
-            "Sự thay đổi nhỏ nhất ở học sinh cũng là thành tựu lớn của Giáo viên. ✅",
-            "Thế giới được thay đổi bởi những tấm gương, không phải bởi những ý kiến. 🍎",
-            "Thành công không phải là chìa khóa hạnh phúc, hạnh phúc là chìa khóa thành công. 🔑",
-            "Học, học nữa, học mãi - Câu nói bất hủ dành cho cả Thầy và Trò. 💯",
-            "Hãy để sự nhiệt huyết của bạn là tấm gương cho học sinh noi theo! 💪"
-        ];
-        
-        function updateMarqueeText() {
-            const marqueeElement = document.getElementById('marquee-text');
-            if (marqueeElement) {
-                // Chọn ngẫu nhiên một câu nói từ mảng (đã có 20 câu)
-                const randomIndex = Math.floor(Math.random() * teacherQuotes.length);
-                const randomQuote = teacherQuotes[randomIndex];
-                
-                // Cập nhật nội dung
-                marqueeElement.textContent = `📢 Lời nhắc nhẹ nhàng: ${randomQuote} 🌟`;
-                
-                // Khởi động lại animation để đảm bảo chữ chạy lại từ đầu với nội dung mới
-                // Bằng cách xóa và thêm lại class animation
-                marqueeElement.style.animation = 'none';
-                void marqueeElement.offsetWidth; // Force reflow
-                marqueeElement.style.animation = 'marquee-motion 35s linear infinite';
-            }
+        // --- AUTH ---
+        async function loadUserInfo(userId) {
+            const profileRef = doc(db, "users", userId, "profile", "data");
+            try {
+                const docSnap = await getDoc(profileRef);
+                const defaultName = "Giáo viên";
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('user-info-name').textContent = data.hoTen || defaultName;
+                    document.getElementById('user-info-name-short').textContent = (data.hoTen || defaultName).split(' ').pop();
+                    document.getElementById('user-info-email').textContent = auth.currentUser.email;
+                    const subEl = document.querySelector('#user-info-subject span:last-child');
+                    const schEl = document.querySelector('#user-info-school span:last-child');
+                    if(subEl) subEl.textContent = data.monHoc || "...";
+                    if(schEl) schEl.textContent = data.truongHoc || "THCS Thu Cúc";
+                    document.getElementById('header-school-name-display').textContent = data.truongHoc || "THCS THU CÚC";
+                    return data.hoTen;
+                }
+                return defaultName;
+            } catch (e) { return "Giáo viên"; }
         }
 
-        // 1. Chạy lần đầu ngay khi app load (sau khi onAuthStateChanged chạy)
-        // 2. Thiết lập chạy ngẫu nhiên mỗi 15 giây (hoặc lâu hơn tùy bạn muốn)
-        // Dùng thời gian 15s để câu nói cũ vừa chạy hết thì câu mới bắt đầu
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUserId = user.uid;
+                if (window.appLogic && window.appLogic.setLogicUserId) window.appLogic.setLogicUserId(currentUserId);
+                const profileRef = doc(db, "users", currentUserId, "profile", "data");
+                const docSnap = await getDoc(profileRef);
+                if (!docSnap.exists() || !docSnap.data().hoTen) { document.getElementById('onboarding-popup').classList.add('show'); } 
+                else {
+                    const name = await loadUserInfo(currentUserId);
+                    const hour = new Date().getHours();
+                    const greeting = hour < 12 ? "Chào buổi sáng" : (hour < 18 ? "Chào buổi chiều" : "Chào buổi tối");
+                    document.getElementById('greeting-title').textContent = `${greeting}, ${name}!`;
+                    document.getElementById('greeting-message').textContent = "Chúc bạn một ngày làm việc hiệu quả.";
+                    document.getElementById('greeting-popup').classList.add('show');
+                }
+                loadContent('menu1_tkb.html', document.getElementById('menu-1'), 'menu-group-1');
+            } else { window.location.href = "login_page.html"; }
+        });
+
+        window.handleLogout = async () => { try { await signOut(auth); } catch(e) {} }
+        document.getElementById('onboarding-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('save-profile-button'); btn.disabled = true; btn.textContent = "Đang lưu...";
+            try {
+                const data = { hoTen: document.getElementById('ho-ten').value, monHoc: document.getElementById('mon-hoc').value, truongHoc: document.getElementById('truong-hoc').value };
+                await setDoc(doc(db, "users", currentUserId, "profile", "data"), data, { merge: true });
+                await setDoc(doc(db, "public_data", "user_list_doc"), { users: { [currentUserId]: data.hoTen } }, { merge: true });
+                document.getElementById('onboarding-popup').classList.remove('show');
+                loadUserInfo(currentUserId);
+            } catch(e) {} finally { btn.disabled = false; btn.textContent = "Hoàn tất"; }
+        });
         
-        // Bạn có thể đặt hàm này bên ngoài onAuthStateChanged hoặc gọi nó bên trong
-        // Đặt ở đây để nó chạy ngay sau khi định nghĩa
-        updateMarqueeText(); 
-        
-        // Cập nhật lại mỗi 15 giây
-        setInterval(updateMarqueeText, 35000); 
-        // === END LOGIC CHỮ CHẠY NGẪU NHIÊN ===
+        const quotes = ["Hạnh phúc của thầy là sự trưởng thành của trò.", "Mỗi ngày đến trường là một ngày vui.", "Tận tâm, tận lực, tất cả vì học sinh thân yêu."];
+        setInterval(() => { const el = document.getElementById('marquee-text'); if(el) el.textContent = `📢 ${quotes[Math.floor(Math.random() * quotes.length)]}`; }, 30000);
+        document.getElementById('marquee-text').textContent = `📢 ${quotes[0]}`;
     </script>
-
     <script type="module" src="app_logic.js"></script>
 </body>
 </html>
